@@ -6,6 +6,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 const title = "This is Cloud";
 const author = "Anthony Pillot";
+const organization = "Size Up";
 const github = "anthonypillot";
 const githubUrl = "https://github.com/size-up/docs";
 
@@ -124,7 +125,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} ${author}`,
+        copyright: `Copyright © ${new Date().getFullYear()} ${author} | ${organization} organization.`,
       },
       prism: {
         theme: lightCodeTheme,
