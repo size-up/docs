@@ -81,4 +81,13 @@ ansible all -m shell -a "sudo iptables -A INPUT -p tcp --dport 6443 -j ACCEPT`
 
 # References and useful links
 
-`Hosts` file example is available [in this folder, next to this README.MD](./hosts).
+`Hosts` file example:
+
+```shell title="/etc/ansible/hosts"
+# My inventory file is located in /etc/ansible/hosts on the cluster.
+
+[workers]
+ampere-1 ansible_host=10.0.X.X ansible_ssh_private_key_file=~/.ssh/private.key
+amd-0 ansible_host=10.0.X.X ansible_ssh_private_key_file=~/.ssh/private.key
+amd-1 ansible_host=10.0.X.X ansible_ssh_private_key_file=~/.ssh/private.key
+```
