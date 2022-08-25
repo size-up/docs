@@ -1,0 +1,18 @@
+- hosts: localhost workers # or a specific host, here is localhost and workers group
+  become: true # mean that the user will be able to run commands as root (sudo)
+  tasks: # tasks to run on the host
+    - name: Autorize INPUT/FORWARD/OUTPUT firewall rules for localhost and workers group
+      shell: | # run a shell command
+        sudo iptables --insert INPUT --source 10.0.0.0/8 --jump ACCEPT
+        sudo iptables --insert INPUT --destination 10.0.0.0/8 --jump ACCEPT
+
+        sudo iptables --insert FORWARD --source 10.0.0.0/8 --jump ACCEPT
+        sudo iptables --insert FORWARD --destination 10.0.0.0/8 --jump ACCEPT
+
+        sudo iptables --insert OUTPUT --source 10.0.0.0/8 --jump ACCEPT
+        sudo iptables --insert OUTPUT --destination 10.0.0.0/8 --jump ACCEPT
+
+    - name: Save the rules and make them permanent
+      shell: | # run a shell command
+        sudo netfilter-persistent save
+        sudo netfilter-persistent reload
