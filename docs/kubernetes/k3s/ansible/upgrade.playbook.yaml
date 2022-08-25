@@ -1,0 +1,26 @@
+---
+- hosts: all localhost # or a specific host, here is 'all' nodes in the inventory
+  become: true # mean that the user will be able to run commands as root (sudo)
+  tasks: # tasks to run
+    - name: Update apt repo and cache on all Debian/Ubuntu boxes # in the cluster to ensure we have the latest packages available for upgrade and install
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600 # update the apt cache and force apt to use the cache
+
+    - name: Upgrade all packages on servers # in the cluster
+      apt: upgrade=dist force_apt_get=yes # upgrade all packages on the system
+
+    - name: Remove automatically all unused packages # in the cluster
+      apt: autoremove=yes force_apt_get=yes # remove automatically all unused packages
+
+    - name: Check if a reboot is needed on all servers # in the cluster to ensure we have the latest packages available for upgrade and install
+      register: reboot_required_file # register the result of the command
+      stat: path=/var/run/reboot-required get_md5=no # check if the file exists and get the md5sum of the file
+
+    - name: Reboot the box if kernel updated # in the cluster if the kernel has been updated and reboot is needed
+      reboot:
+        msg: "Reboot initiated by Ansible for kernel updates" # message to display to the user
+        connect_timeout: 5 # timeout for the connection
+        reboot_timeout: 300 # timeout for the reboot
+        pre_reboot_delay: 0 # delay before the reboot
+        post_reboot_delay: 30 # delay after the reboot
+        test_command: uptime # test command to run after reboot to check if the reboot was successful
+      when: reboot_required_file.stat.exists # check if the file exists and get the md5sum of the file
