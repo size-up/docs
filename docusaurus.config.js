@@ -4,9 +4,10 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
-const title = "Cloud documentation";
+const title = "This is Cloud";
 const author = "Anthony Pillot";
 const github = "anthonypillot";
+const githubUrl = "https://github.com/size-up/docs";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -41,15 +42,13 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: githubUrl,
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: githubUrl,
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -70,7 +69,7 @@ const config = {
         items: [
           {
             type: "doc",
-            docId: "intro",
+            docId: "summary",
             position: "left",
             label: "Documentation",
           },
@@ -89,8 +88,8 @@ const config = {
             title: "Documentation",
             items: [
               {
-                label: "First documentation",
-                to: "/docs/intro",
+                label: "Summary",
+                to: "/docs/summary",
               },
             ],
           },
