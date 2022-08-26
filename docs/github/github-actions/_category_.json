@@ -1,0 +1,8 @@
+{
+  "label": "GitHub Actions",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Useful snippets and references to help you building workflow in GitHub Actions."
+  }
+}
