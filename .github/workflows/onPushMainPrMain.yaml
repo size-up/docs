@@ -65,7 +65,7 @@ jobs:
 
     needs: [build]
 
-    if: github.ref == 'refs/heads/main' # optimize with run only on main branch
+    # if: github.ref == 'refs/heads/main' # optimize with run only on main branch
 
     steps:
       - name: 📥 Checkout repository
@@ -92,8 +92,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm
         run: npx semantic-release
+        id: version # get the version
     outputs:
-      version: ${{ steps.semantic_release.outputs.new_release_version }}
+      version: ${{ steps.version.outputs.nextVersion }}
 
   deploy:
     name: "🐳 Deploy application"
@@ -101,7 +102,7 @@ jobs:
 
     needs: [release]
 
-    if: ${{ needs.release.outputs.version }}
+    if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
 
     steps:
       - name: 📥 Checkout repository
@@ -125,4 +126,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: sizeup/docs:latest,sizeup/docs:${{ needs.release.outputs.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:latest,${{ secrets.DOCKERHUB_USERNAME }}/docs:${{ needs.release.outputs.version }}
