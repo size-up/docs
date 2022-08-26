@@ -5,10 +5,26 @@ const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 const title = "This is Cloud";
-const author = "Anthony Pillot";
-const organization = "Size Up";
-const github = "anthonypillot";
-const githubUrl = "https://github.com/size-up/docs";
+
+const maintainer = {
+  name: "Anthony Pillot",
+  github: {
+    account: "anthonypillot",
+    url: "https://github.com/anthonypillot",
+  },
+  twitter: "anthonypillot_",
+};
+
+const organization = {
+  name: "Size Up",
+  github: {
+    account: "size-up",
+    url: {
+      root: "https://github.com/size-up",
+      repository: "https://github.com/size-up/docs",
+    },
+  },
+};
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -23,7 +39,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: github, // Usually your GitHub org/user name.
+  organizationName: organization.name, // Usually your GitHub org/user name.
   projectName: "docs", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -43,13 +59,13 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: githubUrl,
+          editUrl: organization.github.url.repository,
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: githubUrl,
+          editUrl: organization.github.url.repository,
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -76,7 +92,7 @@ const config = {
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
-            href: "https://github.com/" + github,
+            href: organization.github.url.repository,
             label: "GitHub",
             position: "right",
           },
@@ -92,40 +108,46 @@ const config = {
                 label: "Summary",
                 to: "/docs/summary",
               },
+              {
+                label: "Kubernetes",
+                to: "/docs/category/kubernetes",
+              },
+              {
+                label: "GitHub self hosted runner",
+                to: "/docs/kubernetes/github-selfhosted-runners",
+              },
             ],
           },
           {
             title: "Community",
             items: [
               {
-                label: "GitHub",
-                href: "https://github.com/" + github,
+                label: "GitHub | Organization",
+                href: organization.github.url.root,
+              },
+              {
+                label: "GitHub | Documentation maintainer",
+                href: maintainer.github.url,
               },
               {
                 label: "Twitter",
-                href: "https://twitter.com/anthonypillot_",
+                href: "https://twitter.com/" + maintainer.twitter,
               },
-              // {
-              //   label: "Stack Overflow",
-              //   href: "https://stackoverflow.com/questions/tagged/docusaurus",
-              // },
-              // {
-              //   label: "Discord",
-              //   href: "https://discordapp.com/invite/docusaurus",
-              // },
             ],
           },
           {
-            title: "More",
+            title: "More content",
             items: [
               {
-                label: "Blog",
+                label: "Blog posts",
                 to: "/blog",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} ${author} | ${organization} organization.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ${
+          maintainer.name
+        } | ${organization.name} organization.`,
       },
       prism: {
         theme: lightCodeTheme,
