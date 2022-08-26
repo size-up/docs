@@ -65,6 +65,8 @@ jobs:
 
     needs: [build]
 
+    if: github.ref == 'refs/heads/main' # optimize with run only on main branch
+
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
