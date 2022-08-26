@@ -1,16 +1,17 @@
-{
-  "plugins": [
+const { readFileSync } = require("fs");
+const path = require("path");
+
+const releaseTemplate = readFileSync(path.join("release-template.hbs"));
+
+module.exports = {
+  plugins: [
     [
       "semantic-release-gitmoji",
       {
-        "releaseRules": {
-          "major": [
-            ":boom:"
-          ],
-          "minor": [
-            ":sparkles:"
-          ],
-          "patch": [
+        releaseRules: {
+          major: [":boom:"],
+          minor: [":sparkles:"],
+          patch: [
             ":zap:",
             ":bug:",
             ":ambulance:",
@@ -30,7 +31,6 @@
             ":alien:",
             ":bento:",
             ":wheelchair:",
-            ":speech_balloon:",
             ":card_file_box:",
             ":children_crossing:",
             ":iphone:",
@@ -44,25 +44,36 @@
             ":wastebasket:",
             ":passport_control:",
             ":adhesive_bandage:",
-            ":necktie:"
-          ]
-        }
-      }
+            ":necktie:",
+            ":speech_balloon:",
+            ":memo:",
+          ],
+        },
+        releaseNotes: { template: releaseTemplate },
+      },
     ],
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "CHANGELOG.md"
-      }
+        changelogFile: "CHANGELOG.md",
+      },
     ],
     "@semantic-release/npm",
     [
       "@semantic-release/git",
       {
-        "message": ":bookmark: Release ${nextRelease.version}\n\n${nextRelease.notes}"
-      }
+        message:
+          ":bookmark: Release ${nextRelease.version}\n\n${nextRelease.notes}",
+      },
     ],
-    "@semantic-release/github"
+    "@semantic-release/github",
+    [
+      "@semantic-release/exec",
+      {
+        publishCmd:
+          "echo ::set-output name=nextVersion::${nextRelease.version}",
+      },
+    ],
   ],
-  "branches": "main"
-}
+  branches: "main",
+};
