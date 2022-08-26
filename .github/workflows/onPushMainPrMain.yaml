@@ -48,7 +48,7 @@ jobs:
       - name: ⚙️ Build application
         run: yarn build
 
-      - name: 📤 Upload artifacts
+      - name: 📤 Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: build
@@ -58,38 +58,6 @@ jobs:
         name: 🗃 List the state of node modules
         continue-on-error: true
         run: yarn list
-
-  deploy:
-    name: "🐳 Deploy application [WIP]"
-    runs-on: ubuntu-latest
-
-    needs: [build]
-
-    steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v3
-
-      # - name: 🌐 Use Node.js LTS
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: lts/*
-      # - name: 🗂 Cache "node_modules"
-      #   id: cache
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache
-      #   with:
-      #     path: "**/node_modules"
-      #     key: ${{ runner.arch }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.arch }}-${{ runner.os }}-build-${{ env.cache-name }}-
-      #       ${{ runner.arch }}-${{ runner.os }}-build-
-      #       ${{ runner.arch }}-${{ runner.os }}-
-
-      - name: 🐳 Build Docker image
-        run: echo "Do something like ... docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} ."
-      - name: 🐳 Push Docker image to registry
-        run: echo "Do something like ... docker push ${{ secrets.DOCKER_IMAGE_NAME }} ."
 
   release:
     name: 🔖 Release application
@@ -122,3 +90,37 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm
         run: npx semantic-release
+    outputs:
+      version: ${{ steps.semantic_release.outputs.new_release_version }}
+
+  deploy:
+    name: "🐳 Deploy application"
+    runs-on: ubuntu-latest
+
+    needs: [release]
+
+    if: ${{ needs.release.outputs.version }}
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 📥 Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: 🛠 Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: 🛠 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: 📲 Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: 🐳 Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: sizeup/docs:latest,sizeup/docs:${{ needs.release.outputs.version }}
