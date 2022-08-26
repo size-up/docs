@@ -30,7 +30,6 @@
             ":alien:",
             ":bento:",
             ":wheelchair:",
-            ":speech_balloon:",
             ":card_file_box:",
             ":children_crossing:",
             ":iphone:",
@@ -44,7 +43,9 @@
             ":wastebasket:",
             ":passport_control:",
             ":adhesive_bandage:",
-            ":necktie:"
+            ":necktie:",
+            ":speech_balloon:",
+            ":memo:"
           ]
         }
       }
@@ -62,7 +63,13 @@
         "message": ":bookmark: Release ${nextRelease.version}\n\n${nextRelease.notes}"
       }
     ],
-    "@semantic-release/github"
+    "@semantic-release/github",
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "echo ::set-output name=nextVersion::${nextRelease.version}"
+      }
+    ]
   ],
   "branches": "main"
 }
