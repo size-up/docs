@@ -25,18 +25,13 @@ jobs:
     name: ⚙️ Build application
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
-      - name: 🌐 Use Node.js ${{ matrix.node-version }}
+      - name: 🌐 Use Node.js LTS
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: lts/*
       - name: 🗂 Cache "node_modules"
         id: cache
         uses: actions/cache@v3
@@ -101,8 +96,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm
         run: npx semantic-release
+        id: version # save the version
     outputs:
-      version: ${{ steps.semantic_release.outputs.new_release_version }}
+      version: ${{ steps.version.outputs.nextVersion }}
 
   deploy:
     name: "🐳 Deploy application"
@@ -110,7 +106,7 @@ jobs:
 
     needs: [release]
 
-    if: ${{ needs.release.outputs.version }}
+    if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
 
     steps:
       - name: 📥 Checkout repository
@@ -120,6 +116,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
+          path: ./build
 
       - name: 🛠 Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -133,6 +130,7 @@ jobs:
       - name: 🐳 Build and push
         uses: docker/build-push-action@v3
         with:
+          context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:latest,${{ secrets.DOCKERHUB_USERNAME }}/docs:${{ needs.release.outputs.version }}
 ```
