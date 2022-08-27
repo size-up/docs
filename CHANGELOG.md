@@ -1,3 +1,9 @@
+# [v1.2.0](https://github.com/size-up/docs/compare/v1.1.2...v1.2.0) (2022-08-27)
+
+## ✨ New Features
+- [`000cec2`](https://github.com/size-up/docs/commit/000cec2)  Add docs about &#x60;GitHub Actions&#x60; 
+- [`6ff2698`](https://github.com/size-up/docs/commit/6ff2698)  Add docs about get version from &#x60;semantic-release&#x60;
+
 # [v1.1.2](https://github.com/size-up/docs/compare/v1.1.1...v1.1.2) (2022-08-26)
 
 # [v1.1.1](https://github.com/size-up/docs/compare/v1.1.0...v1.1.1) (2022-08-25)
