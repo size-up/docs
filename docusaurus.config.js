@@ -98,6 +98,13 @@ const config = {
           },
         ],
       },
+      docs: {
+        // documentation about how to custom sidebar https://docusaurus.io/docs/sidebar#theme-configuration
+        sidebar: {
+          autoCollapseCategories: true,
+          hideable: true,
+        },
+      },
       footer: {
         style: "dark",
         links: [
@@ -111,6 +118,10 @@ const config = {
               {
                 label: "Kubernetes",
                 to: "/docs/category/kubernetes",
+              },
+              {
+                label: "Kubernetes fast deploy with k3s",
+                to: "/docs/kubernetes/k3s/fast-deploy",
               },
               {
                 label: "GitHub self hosted runner",
@@ -130,7 +141,7 @@ const config = {
                 href: maintainer.github.url,
               },
               {
-                label: "Twitter",
+                label: "Twitter | Documentation maintainer",
                 href: "https://twitter.com/" + maintainer.twitter,
               },
             ],
