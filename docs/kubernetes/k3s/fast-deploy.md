@@ -14,16 +14,16 @@ Using `ansible` and `k3s` to deploy Kubernetes cluster on `Oracle Cloud Infrastr
 
 From your local machine, copy the ssh key into the server. It'll be used by `ansible` to connect to other nodes.
 
-> Don't forget to actualize the `$MY_PRIVATE_KEY` and `$OCI_SERVER_URL` environment variables on your local machine.
+> Don't forget to actualize the `$PRIVATE_KEY` and `$OCI_SERVER_URL` environment variables on your local machine.
 
 ```shell
-scp -i $MY_PRIVATE_KEY ubuntu@$OCI_SERVER_URL:~/.ssh/
+scp -i /path/to/server/key /path/to/server/key ubuntu@$OCI_SERVER_URL:~/.ssh/
 ```
 
 > You can also use different environment variables to store the ssh key and the server IP like:
 
 ```shell
-scp -i $MY_PRIVATE_KEY ubuntu@$OCI_SERVER_URL:~/.ssh/
+scp -i $PRIVATE_KEY $PRIVATE_KEY ubuntu@$OCI_SERVER_URL:~/.ssh/
 ```
 
 ## Preparation in the master node
@@ -31,8 +31,7 @@ scp -i $MY_PRIVATE_KEY ubuntu@$OCI_SERVER_URL:~/.ssh/
 #### Update and upgrade `Ubuntu`
 
 ```shell
-sudo apt update
-
+sudo apt update && \
 sudo apt upgrade -y
 
 sudo reboot
