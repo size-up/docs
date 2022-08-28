@@ -31,7 +31,7 @@ const config = {
   title: title,
   tagline:
     "Configuration references and useful files and links used by Bare Metal Server, Virtual Private Server (VPS), Virtual Machine (VM) and other Cloud stuff.",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://docs.sizeup.eu.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -120,8 +120,8 @@ const config = {
                 to: "/docs/category/kubernetes",
               },
               {
-                label: "Kubernetes fast deploy with k3s",
-                to: "/docs/kubernetes/k3s/fast-deploy",
+                label: "Kubernetes get started with k3s",
+                to: "/docs/kubernetes/k3s/get-started",
               },
               {
                 label: "GitHub self hosted runner",

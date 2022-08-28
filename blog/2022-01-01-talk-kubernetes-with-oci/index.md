@@ -68,7 +68,7 @@ Nous avons donc :
 
 # Démonstration !
 
-[Note pour la démonstration](@site/docs/kubernetes/k3s/fast-deploy.md).
+[Note pour la démonstration](@site/docs/kubernetes/k3s/get-started.md).
 
 # Pour aller plus loin
 
