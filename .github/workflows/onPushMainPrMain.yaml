@@ -85,7 +85,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm
         run: npx semantic-release
-        id: version # get the version
+        id: version # save the version
     outputs:
       version: ${{ steps.version.outputs.nextVersion }}
 
