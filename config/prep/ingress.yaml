@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: docs-prep
+  name: docs-prep
+  annotations:
+    # By default in k3s, the ingress class is traefik, documentation: https://doc.traefik.io/traefik/routing/providers/kubernetes-ingress/
+    kubernetes.io/ingress.class: traefik # add an annotation indicating the ingress class to use
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd # that middleware have to be created, this will redirect to http to https if the request is not https
+
+    # Cert manager configuration
+    cert-manager.io/cluster-issuer: letsencrypt-production # add an annotation indicating the issuer to use
+    acme.cert-manager.io/http01-edit-in-place: "true" # for more info on this field: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+spec:
+  rules:
+    - host: prep.docs.sizeup.eu.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: docs-prep
+                port:
+                  number: 80
+  tls: # placing a host in the TLS config will determine what ends up in the cert's subjectAltNames
+    - hosts:
+        - prep.docs.sizeup.eu.com
+      secretName: docs-prep-cert # cert-manager will store the created certificate in this secret

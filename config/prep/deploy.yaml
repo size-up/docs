@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: docs-prep
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docs-prep
+  namespace: docs-prep
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: docs-prep
+  template:
+    metadata:
+      labels:
+        app: docs-prep
+    spec:
+      containers:
+        - name: docs-prep
+          image: sizeup/docs:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 80
