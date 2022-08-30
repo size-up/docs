@@ -1,3 +1,9 @@
+# [v1.0.1](https://github.com/size-up/docs/compare/v1.0.0...v1.0.1) (2022-08-30)
+
+## 🔧 Add or update configuration files
+- [`77422ce`](https://github.com/size-up/docs/commit/77422ce)  Update &#x60;package.json&#x60; URL 
+- [`e33d1c6`](https://github.com/size-up/docs/commit/e33d1c6)  Update release template
+
 # v1.0.0 (2022-08-30)
 
 ## ✨ New Features
