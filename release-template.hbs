@@ -166,6 +166,20 @@
 {{/each}}
 {{/if}}
 
+{{#if wrench}}
+## 🔧 Add or update configuration files
+{{#each wrench}}
+- {{> commitTemplate}}
+{{/each}}
+{{/if}}
+
+{{#if hammer}}
+## 🔨 Add or update development scripts
+{{#each hammer}}
+- {{> commitTemplate}}
+{{/each}}
+{{/if}}
+
 {{#if bento}}
 ## 🍱 Added or updated assets
 {{#each bento}}
