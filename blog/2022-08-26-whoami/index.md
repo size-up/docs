@@ -21,7 +21,7 @@ Exotic supplement: a background in work psychology. 💁🏻‍♂️
 - **CI/CD**: GitHub Actions, GitLab CI, Circle CI.
 - **Security**: JWT management, API Gateway (Gravitee), OAuth 2.0 OIDC (Keycloak).
 - **IDE**: VisualStudio Code, IntelliJ IDEA Ultimate.
-- **Cloud and serverless**: Google Cloud (Compute Engine, GKE, Cloud Run, BigQuery), Azure (AKS). Oracle Cloud Infrastructure (Compute Instance, Autonomous Database).
+- **Cloud and serverless**: Google Cloud (Compute Engine, GKE, Cloud Run, BigQuery), Azure (AKS), Oracle Cloud Infrastructure (Compute Instance, Autonomous Database).
 - **Documentation**: Docusaurus.
 
 # Architectural design pattern:
