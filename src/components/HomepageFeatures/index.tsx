@@ -11,7 +11,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: "Server configuration",
-    Svg: require("@site/static/img/server-database-icon.svg").default,
+    Svg: require("@site/static/img/svg/server-database.svg").default,
     description: (
       <>
         Multiple snippets, tutorials, configuration references and useful files
@@ -23,7 +23,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Kubernetes documentation",
-    Svg: require("@site/static/img/kubernetes-icon.svg").default,
+    Svg: require("@site/static/img/svg/kubernetes.svg").default,
     description: (
       <>
         Kubernetes documentation about how quickly install k8s solutions with{" "}
@@ -34,7 +34,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Blog posts",
-    Svg: require("@site/static/img/blog-icon.svg").default,
+    Svg: require("@site/static/img/svg/blog.svg").default,
     description: (
       <>
         All our experiments, all our proof of concept, in the form of a blog
