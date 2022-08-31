@@ -1,3 +1,14 @@
+# [v1.0.2](https://github.com/size-up/docs/compare/v1.0.1...v1.0.2) (2022-08-31)
+
+## 🐛 Bug Fixes
+- [`fc087af`](https://github.com/size-up/docs/commit/fc087af)  &quot;Edit this page&quot; broken links 
+
+## 💄 Style and UI updates
+- [`31e15ae`](https://github.com/size-up/docs/commit/31e15ae)  Add direct access buttons 
+
+## 💬 Updated text and literals
+- [`fe00252`](https://github.com/size-up/docs/commit/fe00252)  Update &#x60;whoami&#x60; blog article
+
 # [v1.0.1](https://github.com/size-up/docs/compare/v1.0.0...v1.0.1) (2022-08-30)
 
 ## 🔧 Add or update configuration files
