@@ -90,6 +90,16 @@ const config = {
             position: "left",
             label: "Documentation",
           },
+          {
+            to: "/docs/category/kubernetes",
+            label: "Kubernetes",
+            position: "left",
+          },
+          {
+            to: "/docs/category/github-actions",
+            label: "GitHub Actions",
+            position: "left",
+          },
           { to: "/blog", label: "Blog", position: "left" },
           {
             href: organization.github.url.repository,
