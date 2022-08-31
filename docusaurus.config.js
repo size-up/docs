@@ -59,13 +59,13 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: organization.github.url.repository,
+          editUrl: `${organization.github.url.repository}/blob/main/`,
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: organization.github.url.repository,
+          editUrl: `${organization.github.url.repository}/blob/main/`,
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
