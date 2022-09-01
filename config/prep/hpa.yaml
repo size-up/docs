@@ -1,8 +1,8 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
+  namespace: docs
   name: docs-prep
-  namespace: docs-prep
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

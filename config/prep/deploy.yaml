@@ -1,13 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: docs-prep
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: docs
   name: docs-prep
-  namespace: docs-prep
 spec:
   replicas: 3
   revisionHistoryLimit: 3

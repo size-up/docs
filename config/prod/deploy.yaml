@@ -1,13 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: docs-prod
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: docs
   name: docs-prod
-  namespace: docs-prod
 spec:
   replicas: 3
   revisionHistoryLimit: 3
@@ -21,7 +16,7 @@ spec:
     spec:
       containers:
         - name: docs-prod
-          image: sizeup/docs:1.2.3
+          image: sizeup/docs:1.0.0
           imagePullPolicy: Always
           resources:
             limits:
