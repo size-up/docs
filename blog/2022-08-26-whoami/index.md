@@ -15,7 +15,7 @@ Exotic supplement: a background in work psychology. 💁🏻‍♂️
 - **Languages**: JavaScript, TypeScript, Node.js, Java.
 - **Back-end frameworks**: Express, Spring Webflux.
 - **Front-end frameworks**: Vue.js, Nuxt.js.
-- **Testing**: Jest, JUnit5.
+- **Testing**: Jest, JUnit5, Cypress.
 - **Data**: SQL and NoSQL (PostgreSQL, Google Cloud BigQuery, MongoDB, Azure CosmosDB).
 - **DevOps**: Docker, Kubernetes, Rancher, Prometheus, Grafana, Datadog.
 - **CI/CD**: GitHub Actions, GitLab CI, Circle CI.
