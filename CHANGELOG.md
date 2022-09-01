@@ -1,3 +1,8 @@
+# [v1.0.4](https://github.com/size-up/docs/compare/v1.0.3...v1.0.4) (2022-09-01)
+
+## 🔧 Add or update configuration files
+- [`ae049e2`](https://github.com/size-up/docs/commit/ae049e2)  Update deploy configuration
+
 # [v1.0.3](https://github.com/size-up/docs/compare/v1.0.2...v1.0.3) (2022-09-01)
 
 ## 💬 Updated text and literals

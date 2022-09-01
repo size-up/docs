@@ -5,7 +5,7 @@
     "email": "pillot.anthony@gmail.com",
     "url": "https://github.com/anthonypillot"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
