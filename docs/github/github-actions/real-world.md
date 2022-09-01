@@ -12,7 +12,7 @@ This example is directly inspired from the `docs` repository _(where you are con
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: CI/CD and Release
+name: CI/CD and release
 
 on:
   push:
@@ -23,6 +23,7 @@ on:
 jobs:
   build:
     name: ⚙️ Build application
+
     runs-on: ubuntu-latest
 
     steps:
@@ -67,6 +68,7 @@ jobs:
 
   release:
     name: 🔖 Release application
+
     runs-on: ubuntu-latest
 
     needs: [build]
@@ -100,13 +102,12 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.nextVersion }}
 
-  deploy:
-    name: "🐳 Deploy application"
+  push:
+    name: "🐳 Build and push image"
+
     runs-on: ubuntu-latest
 
     needs: [release]
-
-    if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
 
     steps:
       - name: 📥 Checkout repository
@@ -127,10 +128,62 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: 🐳 Build and push
+      - name: 🐳 Build and push latest image
         uses: docker/build-push-action@v3
         with:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:latest,${{ secrets.DOCKERHUB_USERNAME }}/docs:${{ needs.release.outputs.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:latest
+      - name: 🐳 Build and push tagged image
+        uses: docker/build-push-action@v3
+        if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
+        with:
+          context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:${{ needs.release.outputs.version }}
+
+  deploy-prep:
+    name: "📲 Deploy pre-production"
+
+    runs-on: ubuntu-latest
+
+    needs: [push]
+
+    environment: pre-production # refer to https://github.com/size-up/docs/settings/environments
+
+    steps:
+      - name: 📤 Deploy pre-production
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: rollout -n docs-prep restart deployment docs-prep
+
+  deploy-prod:
+    name: "📲 Deploy production"
+
+    runs-on: ubuntu-latest
+
+    needs: [release, push]
+
+    if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
+
+    environment: production # refer to https://github.com/size-up/docs/settings/environments
+
+    steps:
+      - name: ⚙️ Set tag image
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: set image -n docs-prod deployment/docs-prod docs-prod=sizeup/docs:${{ needs.release.outputs.version }}
+
+      - name: 📤 Deploy production
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: rollout -n docs-prod restart deployment docs-prod
 ```
