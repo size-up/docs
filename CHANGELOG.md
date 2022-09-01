@@ -1,3 +1,11 @@
+# [v1.0.3](https://github.com/size-up/docs/compare/v1.0.2...v1.0.3) (2022-09-01)
+
+## 💬 Updated text and literals
+- [`319bda8`](https://github.com/size-up/docs/commit/319bda8)  Update &#x60;whoami&#x60; blog article 
+
+## 📝 Add or update documentation
+- [`2d785cd`](https://github.com/size-up/docs/commit/2d785cd)  Update summary
+
 # [v1.0.2](https://github.com/size-up/docs/compare/v1.0.1...v1.0.2) (2022-08-31)
 
 ## 🐛 Bug Fixes
