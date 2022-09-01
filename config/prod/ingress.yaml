@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: docs-prod
+  namespace: docs
   name: docs-prod
   annotations:
     # By default in k3s, the ingress class is traefik, documentation: https://doc.traefik.io/traefik/routing/providers/kubernetes-ingress/
