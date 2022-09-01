@@ -96,7 +96,7 @@ const config = {
             position: "left",
           },
           {
-            to: "/docs/category/github-actions",
+            to: "/docs/category/actions",
             label: "GitHub Actions",
             position: "left",
           },
@@ -135,7 +135,7 @@ const config = {
               },
               {
                 label: "GitHub self hosted runner",
-                to: "/docs/kubernetes/github-selfhosted-runners",
+                to: "/docs/github/github-actions/selfhosted-runners",
               },
             ],
           },
