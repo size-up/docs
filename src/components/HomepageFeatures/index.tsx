@@ -58,6 +58,40 @@ function Feature({ title, Svg, description }: FeatureItem) {
   );
 }
 
+const badge = {
+  version:
+    "https://img.shields.io/github/package-json/v/size-up/docs?label=application%20version",
+  image: {
+    version:
+      "https://img.shields.io/docker/v/sizeup/docs?label=image%20version",
+    size: "https://img.shields.io/docker/image-size/sizeup/docs",
+  },
+};
+
+function getBadgeList() {
+  const badges = [
+    {
+      element: badge.version,
+      url: "https://github.com/size-up/docs/releases",
+    },
+    {
+      element: badge.image.version,
+      url: "https://hub.docker.com/r/sizeup/docs/tags",
+    },
+    {
+      element: badge.image.size,
+      url: "https://hub.docker.com/r/sizeup/docs/tags",
+    },
+  ];
+
+  const badgeList = badges.map((badge) => (
+    <a href={badge.url} target="_blank" rel="noreferrer noopener">
+      <img className={styles.element} src={badge.element}></img>
+    </a>
+  ));
+  return badgeList;
+}
+
 export default function HomepageFeatures(): JSX.Element {
   return (
     <section className={styles.features}>
@@ -67,6 +101,7 @@ export default function HomepageFeatures(): JSX.Element {
             <Feature key={idx} {...props} />
           ))}
         </div>
+        <div className={styles.badge}>{getBadgeList()}</div>
       </div>
     </section>
   );

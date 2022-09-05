@@ -30,7 +30,7 @@ const organization = {
 const config = {
   title: title,
   tagline:
-    "Configuration references and useful files and links used by Bare Metal Server, Virtual Private Server (VPS), Virtual Machine (VM) and other Cloud stuff.",
+    "Documentation that describes many tips and tricks on many IT topics. Configuration references and useful files and links used by Bare Metal Server, Virtual Private Server (VPS), Virtual Machine (VM) and other Cloud stuff.",
   url: "https://docs.sizeup.eu.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
