@@ -16,8 +16,6 @@
   }
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.element {
+  padding: 0.25rem;
 }

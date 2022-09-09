@@ -9,3 +9,16 @@
   height: 200px;
   width: 200px;
 }
+
+.badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+@media screen and (max-width: 996px) {
+  .badge {
+    flex-direction: column;
+  }
+}
