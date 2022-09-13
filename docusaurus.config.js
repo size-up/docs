@@ -39,6 +39,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
+  // @ts-ignore
   organizationName: organization.name, // Usually your GitHub org/user name.
   projectName: "docs", // Usually your repo name.
 
@@ -143,7 +144,7 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "GitHub | Organization",
+                label: "GitHub | Size Up Organization",
                 href: organization.github.url.root,
               },
               {
