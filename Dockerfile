@@ -1,5 +1,8 @@
-FROM nginx:1.23.1-alpine
+FROM nginx:1.23-alpine
 
-COPY build /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
 
-# By default, nginx will expose the port 80
+COPY build .
+
+# By default, nginx expose port 80
+# EXPOSE 80
