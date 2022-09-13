@@ -40,6 +40,17 @@ Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
+## Highlight content
+
+[Read documentation about how highlight your bloc code](https://docusaurus.io/docs/markdown-features/code-blocks#highlighting-with-comments).
+
+- **// highlight-start**<br/>
+- **// highlight-end**
+
+Or just one line:
+
+// **highlight-next-line**
+
 ## Styling your site with Infima
 
 `@docusaurus/preset-classic` uses [**Infima**](https://infima.dev/) as the underlying styling framework. [Infima](https://infima.dev/) provides a flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://infima.dev/).
