@@ -6,19 +6,36 @@ sidebar_position: 999
 
 Cheet sheet about all Kubernetes commands and contents.
 
-#### See all node are running with more details:
+## Kubernetes cheat sheet
+
+### See all node are running with more details:
 
 ```shell
-kubectl get node --all-namespaces -o wide
+kubectl get node --all-namespaces --output=wide
 ```
 
-#### See all pods are running with more details and stay attach _(--watch)_ to:
+Short hand:
 
 ```shell
-kubectl get pods --all-namespaces -o wide --watch
+kubectl get node -A -o=wide
 ```
 
-#### Apply directly yaml file in command line:
+:::tip
+In the Debian distribution, you can also use the built-in `watch` command, to run a command periodically:
+
+```shell
+watch --interval 1 kubectl get node --all-namespaces --output=wide
+```
+
+:::
+
+### See all pods are running with more details and stay attach _(--watch)_
+
+```shell
+kubectl get pods --all-namespaces -o=wide --watch
+```
+
+### Apply directly yaml file in command line:
 
 ```shell
 kubectl apply -f - <<EOF
@@ -33,13 +50,23 @@ spec:
 EOF
 ```
 
-#### Remove taint if running kubectl in one single node
+### Set image to a delployment _on the edge_
+
+```shell
+kubectl set image -n my-namespace deployment/my-deployment my-pod=my-registry-username/my-image:1.1.0
+```
+
+### Remove taint if the Kubernetes cluster is a Single Node Cluster
+
+:::note
+[Read documentation about **Single Node Cluster**](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
+:::
 
 ```shell
 kubectl taint nodes <node-name> node-role.kubernetes.io/master:NoSchedule-
 ```
 
-#### Add a label role to a node
+### Add a label role to a node
 
 A node can be labeled with a key and value. The key and value are separated by a colon. The key and value can be any string.
 
@@ -58,11 +85,15 @@ To change the value of the role label, we can run the following command:
 kubectl label nodes <list-of-nodes-separated-by-spaces> kubernetes.io/role=<role-name>
 ```
 
-> Here, we label the node with the key `node-role.kubernetes.io/role` and the value `worker`.
+:::info
+Here, we label the node with the key `node-role.kubernetes.io/role` and the value is `worker`.
+:::
 
-> This will allow us to filter nodes by the label `node-role.kubernetes.io/role=worker`. This is useful when you want to run a command on a specific node (cf. `NodeSelector`).
+:::info
+This will allow us to filter nodes by the label `node-role.kubernetes.io/role=worker`.<br/>This is useful when you want to run a command on a specific node ([Read documentation about **NodeSelector**](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)).
+:::
 
-#### Get a k8s secret value and decode it
+### Get a k8s secret value and decode it
 
 ```shell
 kubectl get --all-namespaces secrets my-secret --template="{{index .data \"name-of-the-secret.key\"}}" | base64 --decode
