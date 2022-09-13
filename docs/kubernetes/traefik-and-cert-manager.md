@@ -4,25 +4,39 @@ sidebar_position: 4
 
 # Traefik and cert-manager
 
-How get **HTTPS** with **generated Certificate**, using **Traefik** and **cert-manager**.
+How get **HTTPS** with **auto-generated Certificate**, Using **Traefik** as **Ingress Controller** and **cert-manager**.
 
-Using Traefik as Ingress Controller, **automatically default installed with k3s**.
+:::tip
+Traefik is **automatically installed by default with k3s**.
+:::
 
 ## Installation
 
 ### Install cert-manager
 
-> cert-manager documentation : https://cert-manager.io/docs/installation/kubectl/
+:::info
+[Read global documentation about **cert-manager**](https://cert-manager.io/docs/installation/).
+:::
 
-Verify the version of the `cert-manager` before apply the YAML file.
+:::caution
+Remember to check the version of **cert-manager** before applying the YAML file.
+:::
 
 ```shell
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
-### Create a `ClusterIssuer`
+### Create a **ClusterIssuer**
 
-Example:
+:::info
+An Issuer is a namespaced resource, and it is not possible to issue certificates from an Issuer in a different namespace. This means you will need to create an Issuer in each namespace you wish to obtain Certificates in.
+
+**If you want to create a single Issuer that can be consumed in multiple namespaces, you should consider creating a ClusterIssuer resource.** This is almost identical to the Issuer resource, however is non-namespaced so it can be used to issue Certificates across all namespaces.
+
+[Read documentation about **ClusterIssuer** and **Issuer**](https://cert-manager.io/docs/concepts/issuer/).
+:::
+
+#### Example
 
 ```yaml title="cluster-issuer-letsencrypt.yaml"
 apiVersion: cert-manager.io/v1
@@ -72,15 +86,22 @@ spec:
             class: traefik # class of the ingress resource
 ```
 
+:::caution
+Replace `your.email@mail.com` by **your mail** ! The email address is used for ACME registration by Let's Encrypt.
+:::
+
 ### Create Ingress that use the ClusterIssuer
+
+#### ⚠️ Prerequisites !
 
 1. Create the deployment.
 
-2. Expose the deployment, using a `YAML` configuration file or using the `kubectl expose deployment my-service-to-expose`.
+2. Expose the deployment
 
-> `my-service-to-expose` is the name of the deployment.
+   - Using a yaml configuration file.
+   - Using the `kubectl expose deployment my-deployment` command.
 
-1. Create Ingress.
+3. Create Ingress.
 
 ```yaml
 annotations:
@@ -90,7 +111,9 @@ annotations:
   acme.cert-manager.io/http01-edit-in-place: "true"
 ```
 
-> In this example, we're using annotations to specify the ingress controller, class (in this case we're using `traefik`) and the router middleware (to automatically redirect to HTTPS). See documentation about [Traefik middlewares RedirectScheme](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/).
+:::info
+In this example, we're using annotations to specify the ingress controller, class (in this case we're using **Traefik**) and the **router middleware** (to automatically redirect to HTTPS). See documentation about [Traefik middlewares RedirectScheme](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/).
+:::
 
 ### Redirect HTTP to HTTPS using embedded Traefik
 
@@ -115,9 +138,15 @@ And you have to specify the `RedirectScheme` middleware in the `traefik.ingress.
 traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 ```
 
-> `default` is the namespace and `redirect-https` is the `middleware` ressource name.
+:::note
+`default` is the namespace and `redirect-https` is the `middleware` ressource name.
+:::
 
 ### Staging Ingress example
+
+:::info
+[Documentation of Traefik Ingress](https://doc.traefik.io/traefik/providers/kubernetes-ingress/).
+:::
 
 ```yaml title="ingress-staging.yaml"
 apiVersion: networking.k8s.io/v1
@@ -144,7 +173,7 @@ spec:
               service:
                 name: example-service
                 port:
-                  number: 80
+                  number: 80 # must be on port 80
   tls: # placing a host in the TLS config will determine what ends up in the cert's subjectAltNames
     - hosts:
         - my.example.com
@@ -178,7 +207,7 @@ spec:
               service:
                 name: example-service
                 port:
-                  number: 80
+                  number: 80 # must be on port 80
   tls: # placing a host in the TLS config will determine what ends up in the cert's subjectAltNames
     - hosts:
         - my.example.com
@@ -187,13 +216,17 @@ spec:
 
 ## Tips and tricks
 
-### "HTTP01 - Edit in place"
+### "HTTP01 challenge - Edit in place"
 
-From the `cert-manager` `1.6` version, it seems that is necessary to precise in the `Ingress`, that `cert-manager` can edit the Ingress delployment. See the [cert-manager documentation](https://cert-manager.io/docs/usage/ingress/).
+From the **cert-manager** `1.6` version, it seems that is necessary to precise in the **Ingress**, that **cert-manager** can edit the Ingress delployment. See the [cert-manager documentation](https://cert-manager.io/docs/usage/ingress/).
 
-> The `acme.cert-manager.io/http01-edit-in-place` annotation is used to specify that the HTTP01 challenge should be edited in place. This is necessary because the HTTP01 challenge is generated by the ingress controller and the ingress controller is not aware of the ingress.
+:::info
+The `acme.cert-manager.io/http01-edit-in-place` annotation is used to specify that the HTTP01 challenge should be edited in place. This is necessary because the HTTP01 challenge is generated by the ingress controller and the ingress controller is not aware of the ingress.
 
-Using this annotation, the `cert-manager` can edit the Ingress:
+Read documentation about `http01-edit-in-place`.
+:::
+
+Using this annotation, the **cert-manager** can edit the Ingress:
 
 ```yaml
 acme.cert-manager.io/http01-edit-in-place: "true"
@@ -202,5 +235,4 @@ acme.cert-manager.io/http01-edit-in-place: "true"
 ## References
 
 - [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) - Kubernetes Ingress controller.
-
-- [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) - Certificate management for Kubernetes.
+- [cert-manager](https://cert-manager.io/docs/) - Certificate management for Kubernetes.
