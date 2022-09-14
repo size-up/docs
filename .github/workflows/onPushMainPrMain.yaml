@@ -40,7 +40,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: ⚙️ Build application
-        run: yarn build
+        run: yarn run build
 
       - name: 📤 Upload build artifact
         uses: actions/upload-artifact@v3
@@ -82,16 +82,16 @@ jobs:
             ${{ runner.arch }}-${{ runner.os }}-yarn-
 
       - name: 🔖 Release application
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm
-        run: npx semantic-release
-        id: version # save the version
+        id: version # save the version to use in an other step/job
     outputs:
       version: ${{ steps.version.outputs.nextVersion }}
 
   push:
-    name: "🐳 Build and push image"
+    name: 🐳 Build and push image
 
     runs-on: ubuntu-latest
 
@@ -107,7 +107,7 @@ jobs:
           name: build
           path: ./build
 
-      - name: 🛠 Set up QEMU
+      - name: ⚙️ Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 🛠 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -117,7 +117,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 🐳 Build and push latest image
+      - name: 🐳 Build and push image latest
         uses: docker/build-push-action@v3
         with:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
@@ -125,7 +125,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:latest
 
-      - name: 🐳 Build and push tagged image
+      - name: 🐳 Build and push image ${{ needs.release.outputs.version }}
         uses: docker/build-push-action@v3
         if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
         with:
@@ -135,7 +135,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
 
   deploy-prep:
-    name: 📲 Deploy to pre-production
+    name: 🚀 Deploy latest to prep.
 
     runs-on: ubuntu-latest
 
@@ -144,7 +144,7 @@ jobs:
     environment: pre-production # refer to https://github.com/size-up/docs/settings/environments
 
     steps:
-      - name: 📤 Deploy pre-production
+      - name: 🚀 Deploy latest to pre-production
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
@@ -152,7 +152,7 @@ jobs:
           args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prep
 
   deploy-prod:
-    name: 📲 Deploy to production
+    name: 🚀 Deploy v${{ needs.release.outputs.version }} to prod.
 
     runs-on: ubuntu-latest
 
@@ -170,7 +170,7 @@ jobs:
         with:
           args: set image -n ${{ env.APPLICATION_NAME }} deployment/${{ env.APPLICATION_NAME }}-prod ${{ env.APPLICATION_NAME }}-prod=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
 
-      - name: 📲 Deploy production
+      - name: 🚀 Deploy v${{ needs.release.outputs.version }} to production
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}

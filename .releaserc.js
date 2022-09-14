@@ -4,6 +4,7 @@ const path = require("path");
 const releaseTemplate = readFileSync(path.join("release-template.hbs"));
 
 module.exports = {
+  branches: ["main"],
   plugins: [
     [
       "semantic-release-gitmoji",
@@ -31,6 +32,7 @@ module.exports = {
             ":alien:",
             ":bento:",
             ":wheelchair:",
+            ":speech_balloon:",
             ":card_file_box:",
             ":children_crossing:",
             ":iphone:",
@@ -45,8 +47,6 @@ module.exports = {
             ":passport_control:",
             ":adhesive_bandage:",
             ":necktie:",
-            ":speech_balloon:",
-            ":memo:",
           ],
         },
         releaseNotes: { template: releaseTemplate },
@@ -58,12 +58,17 @@ module.exports = {
         changelogFile: "CHANGELOG.md",
       },
     ],
-    "@semantic-release/npm",
+    [
+      "@semantic-release/npm",
+      {
+        npmPublish: false,
+      },
+    ],
     [
       "@semantic-release/git",
       {
         message:
-          ":bookmark: Release ${nextRelease.version}\n\n${nextRelease.notes}",
+          ":bookmark: Release v${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]",
       },
     ],
     "@semantic-release/github",
@@ -75,5 +80,4 @@ module.exports = {
       },
     ],
   ],
-  branches: "main",
 };
