@@ -1,3 +1,19 @@
+# [v1.0.1](https://github.com/size-up/docs/compare/v1.0.0...v1.0.1) (2022-09-15)
+
+## 🔧 Add or update configuration files
+- [`7e80206`](https://github.com/size-up/docs/commit/7e80206)  Update &#x60;Dockerfile&#x60; config. 
+- [`c8a5893`](https://github.com/size-up/docs/commit/c8a5893)  Update &#x60;release-template.hbs&#x60; 
+
+## 🔥 Remove code or files
+- [`3cb8b51`](https://github.com/size-up/docs/commit/3cb8b51)  Remove demo purpose file 
+
+## 📝 Add or update documentation
+- [`4f43fb3`](https://github.com/size-up/docs/commit/4f43fb3)  Update documentation about Tips and Tricks 
+- [`27e4c98`](https://github.com/size-up/docs/commit/27e4c98)  Update documentation about Traefik 
+- [`5f269b1`](https://github.com/size-up/docs/commit/5f269b1)  Update documentation about Helper 
+- [`83e9503`](https://github.com/size-up/docs/commit/83e9503)  Update documentation about Self hosted runners 
+- [`2fce6eb`](https://github.com/size-up/docs/commit/2fce6eb)  Update &#x60;README.md&#x60;
+
 # v1.0.0 (2022-09-10)
 
 ## ✨ New Features
