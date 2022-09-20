@@ -14,15 +14,15 @@ Exotic supplement: a background in work psychology. 💁🏻‍♂️
 
 - **Languages**: JavaScript, TypeScript, Node.js, Java.
 - **Back-end frameworks**: Express, Spring Webflux.
-- **Front-end frameworks**: Vue.js, Nuxt.js.
-- **Testing**: Jest, JUnit5, Cypress.
+- **Front-end frameworks**: React, Next.js, Vue.js, Nuxt.js.
+- **Testing**: Jest, JUnit5, Cerberus, Cypress.
 - **Data**: SQL and NoSQL (PostgreSQL, Google Cloud BigQuery, MongoDB, Azure CosmosDB).
-- **DevOps**: Docker, Kubernetes, Rancher, Prometheus, Grafana, Datadog.
+- **DevOps**: Kubernetes, k3s, Rancher, Docker.
 - **CI/CD**: GitHub Actions, GitLab CI, Circle CI.
-- **Security**: JWT management, API Gateway (Gravitee), OAuth 2.0 OIDC (Keycloak).
+- **Security**: JWT management, API Gateway (Gravitee, Kong), OAuth 2.0 OIDC (Keycloak).
+- **Cloud and serverless**: Google Cloud (Compute Engine, GKE, Cloud Run, BigQuery), Azure (AKS), Oracle Cloud Infrastructure (Compute Instance, Autonomous - Database).
+- **Analytics**: Elastic suite (Elasticsearch, Kibana, Filebeat, APM), Datadog, Prometheus, Grafana.
 - **IDE**: VisualStudio Code, IntelliJ IDEA Ultimate.
-- **Cloud and serverless**: Google Cloud (Compute Engine, GKE, Cloud Run, BigQuery), Azure (AKS), Oracle Cloud Infrastructure (Compute Instance, Autonomous Database).
-- **Documentation**: Docusaurus.
 
 # Architectural design pattern:
 
@@ -33,6 +33,6 @@ Exotic supplement: a background in work psychology. 💁🏻‍♂️
 
 ---
 
-Made with ❤️ and Docusaurus.
+Made with ❤️ and **Docusaurus**.
 
 ![Docusaurus banner](./docusaurus-plushie-banner.jpeg)
