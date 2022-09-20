@@ -23,7 +23,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Kubernetes documentation",
-    Svg: require("@site/static/img/svg/kubernetes.svg").default,
+    Svg: require("@site/static/img/svg/logo-kubernetes.svg").default,
     description: (
       <>
         Kubernetes documentation about how quickly install k8s solutions with{" "}
