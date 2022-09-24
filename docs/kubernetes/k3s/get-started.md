@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Get started
 
-**k3s** configuration and installation using the **Always Free Ressources** from **Oracle Cloud Infrastructure** and `Ansible` to deploy a full _(and free)_ Kubernetes cluster.
+**k3s** configuration and installation using the **Always Free Ressources** from **Oracle Cloud Infrastructure** and **Ansible** to deploy a full _(and free)_ Kubernetes cluster.
 
 ### Minimum requirements
 
@@ -18,15 +18,34 @@ The following are the minimum CPU and memory requirements for nodes in a **high-
 | X-Large         | Up to 500 | 16    | 32 GB |
 | XX-Large        | 500+      | 32    | 64 GB |
 
-> See documentation about [k3s](https://k3s.io/docs/concepts/cluster/k3s). `k3s` is a container orchestrator for Kubernetes. Is lightweight, easy to use and easy to deploy.
+> See documentation about [k3s](https://k3s.io/docs/concepts/cluster/k3s). **k3s** is a container orchestrator for Kubernetes. Is lightweight, easy to use and easy to deploy.
 
 > See documentation about [Oracle - Always Free Ressources](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/usingalwaysfreeressources.htm). `Always Free Ressources` can be used to create a k3s cluster on Oracle Cloud platform.
 
 ## Prepare the master node
 
+### Configuration iptables
+
+:::danger
+
+You **must configure iptables** to allow Kubernetes to communicate with other pods in its sub-network.
+
+```shell
+sudo iptables --insert INPUT --source 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert INPUT --destination 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert FORWARD --source 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert FORWARD --destination 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert OUTPUT --source 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert OUTPUT --destination 10.0.0.0/8 --jump ACCEPT && \
+sudo netfilter-persistent save && \
+sudo netfilter-persistent reload
+```
+
+:::
+
 ### Copy the ssh key into the server
 
-From your local machine, copy the ssh key into the server. It'll be used by `Ansible` to connect to other nodes.
+From your local machine, copy the ssh key into the server. It'll be used by **Ansible** to connect to other nodes.
 
 :::tip
 Export the `$PRIVATE_KEY` and `$OCI_SERVER_URL` environment variables on your local machine.
@@ -47,26 +66,7 @@ sudo reboot
 
 > The `reboot` is needed to apply the new kernel.
 
-<!-- #### Git clone this repository
-
-Create a `~/.ssh/config` file, to using SSH private key to clone the repository:
-
-```
-Host github.com
-  HostName github.com
-  User anthonypillot
-  IdentityFile ~/.ssh/anthonypillot.key
-```
-
-Then, clone the repository:
-
-```shell
-git clone git@github.com:anthonypillot/cloud.git
-```
-
-> And `stdin` account and password. -->
-
-### Install `Ansible` and prepare other nodes for Kubernetes installation
+### Install **Ansible** and prepare other nodes for Kubernetes installation
 
 ```shell
 sudo apt install software-properties-common -y && \
@@ -87,7 +87,7 @@ Modify the ansible's hosts file, located at `/etc/ansible/hosts`:
 sudo vim /etc/ansible/hosts
 ```
 
-For instance, add the following line in the `Ansible`'s `hosts` file, to create the `workers` group:
+For instance, add the following line in the **Ansible**'s `hosts` file, to create the `workers` group:
 
 ```shell title="/etc/ansible/hosts"
 # My inventory file is located in /etc/ansible/hosts on the cluster.
@@ -104,7 +104,7 @@ Test connection to the nodes:
 ansible workers -m ping
 ```
 
-### Run `Ansible` playbooks
+### Run **Ansible** playbooks
 
 Update and upgrade workers nodes, [link to the the yaml file](./ansible/upgrade.playbook.yaml):
 
@@ -198,7 +198,7 @@ And then, open a new terminal to continue.
 
 :::
 
-### Use `Ansible` to connect other nodes to the master node:
+### Use **Ansible** to connect other nodes to the master node:
 
 ```shell
 ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<MASTER_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -"
@@ -258,18 +258,18 @@ Then, copy the **NodePort** of the exposed service and access it: `http://<PUBLI
 
 Your Kubernetes cluster with ...
 
-- `k3s`,
-- `Ansible`
+- **k3s**,
+- **Ansible**
 - on **Oracle Cloud Infrastructure** with **Always Free Ressources**
 
 ... is **working**!
 
 ## More information and configuration
 
-### Install Rancher on a **single `k3s` node cluster**
+### Install Rancher on a **single **k3s** node cluster**
 
 :::caution
-This installation method will not work if you have more than one `k3s` node cluster. Rancher will show just one `k3s` node cluster. Even if you have more than one `k3s` node cluster. If you want to install Rancher on a multi-node cluster, you will need to install using `helm`.
+This installation method will not work if you have more than one **k3s** node cluster. Rancher will show just one **k3s** node cluster. Even if you have more than one **k3s** node cluster. If you want to install Rancher on a multi-node cluster, you will need to install using **helm**.
 :::
 
 ```shell
@@ -286,49 +286,17 @@ See [Installing Rancher on a Single Node Using Docker](https://rancher.com/docs/
 
 > See [k3s firewall](https://k3s.io/docs/tutorials/k3s-firewall/) for more information.
 
-Open all ports on `FORWARD`, `INPUT` and `OUTPUT`:
+Open ports with restricted IPs range on **FORWARD**, **INPUT** and **OUTPUT**:
 
 ```shell
-sudo iptables -I FORWARD -j ACCEPT
-sudo iptables -I INPUT -j ACCEPT
-sudo iptables -I OUTPUT -j ACCEPT
-```
-
-One line command to open all ports on `FORWARD`, `INPUT` and `OUTPUT`:
-
-```shell
-sudo iptables -I FORWARD -j ACCEPT && sudo iptables -I INPUT -j ACCEPT && sudo iptables -I OUTPUT -j ACCEPT
-```
-
-Open ports with restricted IPs range on `FORWARD`, `INPUT` and `OUTPUT`:
-
-```shell
-sudo iptables -I FORWARD -s 10.0.0.0/8 -j ACCEPT
-sudo iptables -I FORWARD -d 10.0.0.0/8 -j ACCEPT
-
-sudo iptables -I INPUT -s 10.0.0.0/8 -j ACCEPT
-sudo iptables -I INPUT -d 10.0.0.0/8 -j ACCEPT
-
-sudo iptables -I OUTPUT -s 10.0.0.0/8 -j ACCEPT
-sudo iptables -I OUTPUT -d 10.0.0.0/8 -j ACCEPT
-```
-
-One line command:
-
-```shell
-sudo iptables -I FORWARD -s 10.0.0.0/8 -j ACCEPT && sudo iptables -I FORWARD -d 10.0.0.0/8 -j ACCEPT && sudo iptables -I INPUT -s 10.0.0.0/8 -j ACCEPT && sudo iptables -I INPUT -d 10.0.0.0/8 -j ACCEPT && sudo iptables -I OUTPUT -s 10.0.0.0/8 -j ACCEPT && sudo iptables -I OUTPUT -d 10.0.0.0/8 -j ACCEPT
-```
-
-#### To persist firewall/port policy (on Linux - Ubuntu distro)
-
-```shell
-sudo iptables-save
-```
-
-or
-
-```shell
-sudo -s iptables-save -c
+sudo iptables --insert INPUT --source 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert INPUT --destination 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert FORWARD --source 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert FORWARD --destination 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert OUTPUT --source 10.0.0.0/8 --jump ACCEPT && \
+sudo iptables --insert OUTPUT --destination 10.0.0.0/8 --jump ACCEPT && \
+sudo netfilter-persistent save && \
+sudo netfilter-persistent reload
 ```
 
 #### Additionnal information
@@ -341,7 +309,7 @@ sudo iptables -L
 
 To accept all incoming traffic you can use following command , -P is to set default policy as accept.
 
-### Reset or flush `iptables` configuration
+### Reset or flush **iptables** configuration
 
 ```shell
 sudo iptables -F
@@ -360,13 +328,13 @@ The `killall` script cleans up containers, k3s directories, and networking compo
 /usr/local/bin/k3s-killall.sh
 ```
 
-### To uninstall `k3s` from a **server** node
+### To uninstall **k3s** from a **server** node
 
 ```shell
 /usr/local/bin/k3s-uninstall.sh
 ```
 
-### To uninstall `k3s` from an **agent** node
+### To uninstall **k3s** from an **agent** node
 
 ```shell
 /usr/local/bin/k3s-agent-uninstall.sh
