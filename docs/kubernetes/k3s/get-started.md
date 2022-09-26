@@ -6,6 +6,14 @@ sidebar_position: 1
 
 **k3s** configuration and installation using the **Always Free Ressources** from **Oracle Cloud Infrastructure** and **Ansible** to deploy a full _(and free)_ Kubernetes cluster.
 
+:::danger
+Using the **Always Free Ressources** from **Oracle Cloud Infrastructure** require to set a [NAT Gateway](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/NATgateway.htm) to gives cloud resources without public IP addresses access to the internet without exposing those resources to incoming internet connections.
+
+But the [NAT Gateway](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/NATgateway.htm) is no more available from the **Always Free Ressources** ; so the other node can't access to the internet with an ephemeral private address (to update linux packages or download k3s for instance).
+
+Primary solution is just to setup a **Single Node Cluster**, while searching a workaround.
+:::
+
 ### Minimum requirements
 
 The following are the minimum CPU and memory requirements for nodes in a **high-availability** k3s server:
