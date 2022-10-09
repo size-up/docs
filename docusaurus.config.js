@@ -84,6 +84,7 @@ const config = {
           alt: title + " logo",
           src: "img/logo.svg",
         },
+        hideOnScroll: true,
         items: [
           {
             type: "doc",
