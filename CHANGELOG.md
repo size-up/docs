@@ -1,3 +1,8 @@
+# [v1.1.1](https://github.com/size-up/docs/compare/v1.1.0...v1.1.1) (2022-10-09)
+
+## 💄 Add or update the UI and style files
+- [`e5fb02c`](https://github.com/size-up/docs/commit/e5fb02c)  Navbar &#x60;hideOnScroll: true&#x60;
+
 # [v1.1.0](https://github.com/size-up/docs/compare/v1.0.3...v1.1.0) (2022-10-09)
 
 ## ✨ Introduce new features
