@@ -4,34 +4,37 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
-const title = "This is Cloud";
+const packageJson = require("./package.json");
 
-const maintainer = {
-  name: "Anthony Pillot",
-  github: {
-    account: "anthonypillot",
-    url: "https://github.com/anthonypillot",
+const application = {
+  title: packageJson.displayName,
+  name: packageJson.name,
+  description: packageJson.description,
+  repository: packageJson.repository.url,
+
+  maintainer: {
+    name: packageJson.contributors[0].name,
+    github: {
+      account: "anthonypillot",
+      url: packageJson.contributors[0].url,
+    },
+    twitter: "anthonypillot_",
   },
-  twitter: "anthonypillot_",
-};
 
-const organization = {
-  name: "Size Up",
-  github: {
-    account: "size-up",
-    url: {
-      root: "https://github.com/size-up",
-      repository: "https://github.com/size-up/docs",
+  organization: {
+    name: packageJson.author.name,
+    github: {
+      account: "size-up",
+      url: "https://github.com/size-up",
     },
   },
 };
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: title,
-  tagline:
-    "Documentation that describes many tips and tricks on many IT topics. Configuration references and useful files and links used by Bare Metal Server, Virtual Private Server (VPS), Virtual Machine (VM) and other Cloud stuff.",
-  url: "https://docs.sizeup.eu.com",
+  title: application.title,
+  tagline: application.description,
+  url: application.repository,
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -40,8 +43,8 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   // @ts-ignore
-  organizationName: organization.name, // Usually your GitHub org/user name.
-  projectName: "docs", // Usually your repo name.
+  organizationName: application.organization.name, // Usually your GitHub org/user name.
+  projectName: application.name, // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -60,13 +63,13 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: `${organization.github.url.repository}/blob/main/`,
+          editUrl: `${application.repository}/blob/main/`,
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: `${organization.github.url.repository}/blob/main/`,
+          editUrl: `${application.repository}/blob/main/`,
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -79,9 +82,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: title,
+        title: application.title,
         logo: {
-          alt: title + " logo",
+          alt: application.displayName + " logo",
           src: "img/logo.svg",
         },
         hideOnScroll: true,
@@ -104,7 +107,7 @@ const config = {
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
-            href: organization.github.url.repository,
+            href: application.repository,
             label: "GitHub",
             position: "right",
           },
@@ -146,15 +149,15 @@ const config = {
             items: [
               {
                 label: "GitHub | Size Up Organization",
-                href: organization.github.url.root,
+                href: application.organization.github.url,
               },
               {
                 label: "GitHub | Documentation maintainer",
-                href: maintainer.github.url,
+                href: application.maintainer.github.url,
               },
               {
                 label: "Twitter | Documentation maintainer",
-                href: "https://twitter.com/" + maintainer.twitter,
+                href: "https://twitter.com/" + application.maintainer.twitter,
               },
             ],
           },
@@ -169,8 +172,8 @@ const config = {
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} ${
-          maintainer.name
-        } | ${organization.name} organization.`,
+          application.organization.name
+        } organization.`,
       },
       prism: {
         theme: lightCodeTheme,

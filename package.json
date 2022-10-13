@@ -1,16 +1,29 @@
 {
   "name": "docs",
-  "author": {
-    "name": "Anthony Pillot",
-    "email": "pillot.anthony@gmail.com",
-    "url": "https://github.com/anthonypillot"
-  },
   "version": "1.1.1",
+  "displayName": "This is Cloud",
+  "description": "Documentation that describes many tips and tricks on many IT topics. Configuration references and useful files and links used to construct beautiful and efficient IT infrastructures with Open Source tools.",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/size-up/docs.git"
+  },
+  "author": {
+    "name": "Size Up",
+    "email": "noreply@sizeup.cloud",
+    "url": "https://github.com/size-up"
+  },
+  "contributors": [
+    {
+      "name": "Anthony Pillot",
+      "email": "pillot.anthony@gmail.com",
+      "url": "https://github.com/anthonypillot"
+    }
+  ],
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "start:open": "docusaurus start --host 0.0.0.0",
+    "start:host": "docusaurus start --host 0.0.0.0 --no-open",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
