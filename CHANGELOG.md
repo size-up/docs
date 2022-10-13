@@ -1,3 +1,11 @@
+# [v1.1.2](https://github.com/size-up/docs/compare/v1.1.1...v1.1.2) (2022-10-13)
+
+## 🔧 Add or update configuration files
+- [`784d261`](https://github.com/size-up/docs/commit/784d261)  Update website config. 
+
+## 🍱 Add or update assets
+- [`934ecf2`](https://github.com/size-up/docs/commit/934ecf2)  Update main page with new assets
+
 # [v1.1.1](https://github.com/size-up/docs/compare/v1.1.0...v1.1.1) (2022-10-09)
 
 ## 💄 Add or update the UI and style files
