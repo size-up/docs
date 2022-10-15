@@ -140,7 +140,7 @@ const config = {
               },
               {
                 label: "GitHub self hosted runner",
-                to: "/docs/github/github-actions/selfhosted-runners",
+                to: "/docs/github/actions/selfhosted-runners",
               },
             ],
           },
