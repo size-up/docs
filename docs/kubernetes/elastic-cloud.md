@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ![Elasticsearch](@site/static/img/svg/logo-elasticsearch.svg) **+**
 ![Kibana](@site/static/img/svg/logo-kibana.svg) **=**
-![Elastic Cloud](@site/static/img/svg/logo-elastic-cloud.svg) **[Elastic Cloud](https://www.elastic.co/fr/cloud/)** on <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" alt="Kubernetes" width="38" height="38"/>.
+![Elastic Cloud](@site/static/img/svg/logo-elastic-cloud.svg) **[Elastic Cloud](https://www.elastic.co/fr/cloud/)** on <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" alt="Kubernetes logo" width="38"/>.
 
 Built on the Kubernetes Operator pattern, **Elastic Cloud** on Kubernetes (ECK) extends the basic Kubernetes orchestration capabilities to support the setup and management of Elasticsearch, Kibana, APM Server, Enterprise Search, Beats, Elastic Agent, and Elastic Maps Server on Kubernetes.
 
