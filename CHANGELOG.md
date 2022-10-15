@@ -1,3 +1,15 @@
+# [v1.1.3](https://github.com/size-up/docs/compare/v1.1.2...v1.1.3) (2022-10-15)
+
+## 🔧 Add or update configuration files
+- [`0cd50ce`](https://github.com/size-up/docs/commit/0cd50ce)  Update ansible playbooks files 
+- [`f23f4dc`](https://github.com/size-up/docs/commit/f23f4dc)  Update semantic-release real world example 
+
+## 🍱 Add or update assets
+- [`97105ee`](https://github.com/size-up/docs/commit/97105ee)  Add kubernetes, k3s and ansible logos 
+
+## 🔥 Remove code or files
+- [`5c6d504`](https://github.com/size-up/docs/commit/5c6d504)  Remove &#x60;with kubeadm&#x60; part. and move resources
+
 # [v1.1.2](https://github.com/size-up/docs/compare/v1.1.1...v1.1.2) (2022-10-13)
 
 ## 🔧 Add or update configuration files
