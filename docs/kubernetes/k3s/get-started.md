@@ -120,7 +120,7 @@ Update and upgrade workers nodes, [link to the the yaml file](./ansible/upgrade.
 ansible-playbook ./ansible/upgrade.playbook.yaml
 ```
 
-Configure firewall rules, [link to the the yaml file](./ansible/upgrade.playbook.yaml):
+Configure firewall rules, [link to the the yaml file](./ansible/firewall.playbook.yaml):
 
 ```shell title="firewall-config.playbook.yaml"
 ansible-playbook ./ansible/firewall-config.playbook.yaml
