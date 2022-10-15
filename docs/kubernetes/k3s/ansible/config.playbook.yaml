@@ -1,0 +1,10 @@
+- hosts: all localhost # or a specific host, here is localhost and workers group
+  become: true # mean that the user will be able to run commands as root (sudo)
+  tasks: # tasks to run on the host
+    - name: Set timezone to Europe/Paris
+      shell: | # run a shell command
+        sudo timedatectl set-timezone Europe/Paris
+
+    - name: Print the current date and time
+      shell: | # run a shell command
+        timedatectl status

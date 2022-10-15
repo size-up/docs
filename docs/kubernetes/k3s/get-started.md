@@ -30,7 +30,7 @@ The following are the minimum CPU and memory requirements for nodes in a **high-
 
 > See documentation about [Oracle - Always Free Ressources](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/usingalwaysfreeressources.htm). `Always Free Ressources` can be used to create a k3s cluster on Oracle Cloud platform.
 
-## Prepare the master node
+## 📝 Prepare the control plane node
 
 ### Configuration iptables
 
@@ -114,19 +114,36 @@ ansible workers -m ping
 
 ### Run **Ansible** playbooks
 
-Update and upgrade workers nodes, [link to the the yaml file](./ansible/upgrade.playbook.yaml):
+Update and upgrade all nodes, [direct link to the the yaml file](./ansible/upgrade.playbook.yaml):
 
 ```shell title="upgrade.playbook.yaml"
 ansible-playbook ./ansible/upgrade.playbook.yaml
 ```
 
-Configure firewall rules, [link to the the yaml file](./ansible/firewall.playbook.yaml):
+Configure firewall rules, [direct link to the the yaml file](./ansible/firewall.playbook.yaml):
 
-```shell title="firewall-config.playbook.yaml"
-ansible-playbook ./ansible/firewall-config.playbook.yaml
+```shell title="firewall.playbook.yaml"
+ansible-playbook ./ansible/firewall.playbook.yaml
 ```
 
-## Install and manage k3s
+:::caution
+From the official Kubernetes documentation, **CronJobs use the time zone of the control plane node**. So, if the control plane node is in a different time zone than the worker nodes, CronJobs will not run at the expected time.
+
+To avoid this, you can set the time zone of the control plane node to whatever time zone you want to use. For instance:
+
+```shell
+sudo timedatectl set-timezone Europe/Paris
+```
+
+:::
+
+Misc. configuration _(like timezone setup)_, [direct link to the the yaml file](./ansible/config.playbook.yaml):
+
+```shell title="config.playbook.yaml"
+ansible-playbook ./ansible/config.playbook.yaml
+```
+
+## ⚙️ Install and manage k3s
 
 ### Common way to install k3s:
 
@@ -184,19 +201,19 @@ echo 'alias k=kubectl' >>~/.bashrc && \
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 ```
 
-Then, exit and reconnect to the master node to active `bash completion`.
+Then, exit and reconnect to the control plane node to active `bash completion`.
 :::
 
 ### Install k3s as agent on the worker node:
 
-Retrieve the `node_token` from the master k3s server. The `node_token` is used to identify the node in the cluster.
+Retrieve the `node_token` from the control plane k3s server. The `node_token` is used to identify the node in the cluster.
 
 ```shell
 sudo cat /var/lib/rancher/k3s/server/node-token
 ```
 
 :::tip
-Before doing the next step, you can check live if the worker nodes are connected to the master node by doing:
+Before doing the next step, you can check live if the worker nodes are connected to the control plane node by doing:
 
 ```shell
 watch --interval 1 kubectl get nodes -o=wide
@@ -206,39 +223,39 @@ And then, open a new terminal to continue.
 
 :::
 
-### Use **Ansible** to connect other nodes to the master node:
+### Use **Ansible** to connect other nodes to the control plane node:
 
 ```shell
-ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<MASTER_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -"
+ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<CONTROL_PLANE_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -"
 ```
 
 If you are using external public IPs and you want to refer this in your `kubectl get node -o=wide` command, you can use the `--node-external-ip=<PUBLIC_IP>` parameter as:
 
 ```shell
-ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<MASTER_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-external-ip=<PUBLIC_IP>"
+ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<CONTROL_PLANE_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-external-ip=<PUBLIC_IP>"
 ```
 
-### Taint master node, to avoid deploying pods on it.
+### Taint control plane node, to avoid deploying pods on it.
 
-For an **high-availability** cluster, the master node is the node that is responsible for managing the cluster. It's optimal to taint the master node to avoid deploying pods on it and let workers take over. This is done by **adding** a `NoSchedule` **taint** to the **master node**.
+For an **high-availability** cluster, the control plane node is the node that is responsible for managing the cluster. It's optimal to taint the control plane node to avoid deploying pods on it and let workers take over. This is done by **adding** a `NoSchedule` **taint** to the **control plane node**.
 
 `NoSchedule` **taint** is added to the node with the following command:
 
 ```shell
-kubectl taint node <master-node> node-role.kubernetes.io/control-plane:NoSchedule
+kubectl taint node <control-plane-node> node-role.kubernetes.io/control-plane:NoSchedule
 ```
 
 Command to **untaint** it:
 
 ```shell
-kubectl taint node <master-node> node-role.kubernetes.io/control-plane:NoSchedule-
+kubectl taint node <control-plane-node> node-role.kubernetes.io/control-plane:NoSchedule-
 ```
 
 :::caution
 Starting in v1.20, `node-role.kubernetes.io/master:NoSchedule` taint is **deprecated** in favor of `node-role.kubernetes.io/control-plane` and will be removed in v1.25.
 :::
 
-## Test the Kubernetes cluster
+## 🧪 Test the Kubernetes cluster
 
 Test the full deployment of the cluster by deploying a simple `whoami` application:
 
@@ -290,7 +307,7 @@ See [Installing Rancher on a Single Node Using Docker](https://rancher.com/docs/
 
 ### Firewall troubleshooting
 
-#### Master node and Worker node firewall rules
+#### Control plane node and Worker node firewall rules
 
 > See [k3s firewall](https://k3s.io/docs/tutorials/k3s-firewall/) for more information.
 
@@ -324,7 +341,7 @@ sudo iptables -F
 sudo iptables -X
 ```
 
-## Uninstall k3s
+## 🔥 Uninstall k3s
 
 k3s is installed with built-in scripts to uninstall and remove all contents.
 
