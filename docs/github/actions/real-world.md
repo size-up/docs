@@ -20,6 +20,9 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  APPLICATION_NAME: "docs"
+
 jobs:
   build:
     name: ⚙️ Build application
@@ -33,27 +36,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
+
       - name: 🗂 Cache "node_modules"
-        id: cache
         uses: actions/cache@v3
-        env:
-          cache-name: cache
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: "**/node_modules"
-          key: ${{ runner.arch }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.arch }}-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.arch }}-${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.arch }}-${{ runner.os }}-build-
-            ${{ runner.arch }}-${{ runner.os }}-
-
-      - name: 📦 Install or update yarn
-        run: npm install --global yarn
+            ${{ runner.arch }}-${{ runner.os }}-yarn-
 
       - name: 📦 Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
       - name: ⚙️ Build application
-        run: yarn build
+        run: yarn run build
 
       - name: 📤 Upload build artifact
         uses: actions/upload-artifact@v3
@@ -61,7 +59,7 @@ jobs:
           name: build
           path: ./build
 
-      - if: ${{ steps.cache.outputs.cache-hit == 'false' }}
+      - if: steps.yarn-cache.outputs.cache-hit != 'true'
         name: 🗃 List the state of node modules
         continue-on-error: true
         run: yarn list
@@ -71,43 +69,44 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    needs: [build]
+    needs: build
 
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
+        with:
+          # used by semantic-release to bypass the branch protection rules
+          token: ${{ secrets.GH_TOKEN }}
+
       - name: 🌐 Use Node.js LTS
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
+
       - name: 🗂 Cache "node_modules"
-        id: cache
         uses: actions/cache@v3
-        env:
-          cache-name: cache
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: "**/node_modules"
-          key: ${{ runner.arch }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.arch }}-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.arch }}-${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.arch }}-${{ runner.os }}-build-
-            ${{ runner.arch }}-${{ runner.os }}-
+            ${{ runner.arch }}-${{ runner.os }}-yarn-
 
       - name: 🔖 Release application
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm
-        run: npx semantic-release
-        id: version # save the version
+        id: version # save the version to use in an other step/job
     outputs:
       version: ${{ steps.version.outputs.nextVersion }}
 
   push:
-    name: "🐳 Build and push image"
+    name: 🐳 Build and push image
 
     runs-on: ubuntu-latest
 
-    needs: [release]
+    needs: release
 
     steps:
       - name: 📥 Checkout repository
@@ -119,7 +118,7 @@ jobs:
           name: build
           path: ./build
 
-      - name: 🛠 Set up QEMU
+      - name: ⚙️ Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 🛠 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -128,41 +127,45 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: 🐳 Build and push latest image
+
+      - name: 🐳 Build and push image latest
         uses: docker/build-push-action@v3
         with:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:latest
-      - name: 🐳 Build and push tagged image
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:latest
+
+      - name: 🐳 Build and push image ${{ needs.release.outputs.version }}
         uses: docker/build-push-action@v3
         if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
         with:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docs:${{ needs.release.outputs.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
 
   deploy-prep:
-    name: "📲 Deploy pre-production"
+    name: 🚀 Deploy latest to prep.
 
     runs-on: ubuntu-latest
 
-    needs: [push]
+    needs: push
 
-    environment: pre-production # refer to https://github.com/size-up/docs/settings/environments
+    environment:
+      name: pre-production # refer to https://github.com/size-up/docs/settings/environments
+      url: https://prep.docs.sizeup.cloud
 
     steps:
-      - name: 📤 Deploy pre-production
+      - name: 🚀 Deploy latest to pre-production
         uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
         with:
-          args: rollout -n docs-prep restart deployment docs-prep
+          args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prep
 
   deploy-prod:
-    name: "📲 Deploy production"
+    name: 🚀 Deploy v${{ needs.release.outputs.version }} to prod.
 
     runs-on: ubuntu-latest
 
@@ -170,20 +173,22 @@ jobs:
 
     if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
 
-    environment: production # refer to https://github.com/size-up/docs/settings/environments
+    environment:
+      name: production # refer to https://github.com/size-up/docs/settings/environments
+      url: https://docs.sizeup.cloud
 
     steps:
       - name: ⚙️ Set tag image
         uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
         with:
-          args: set image -n docs-prod deployment/docs-prod docs-prod=sizeup/docs:${{ needs.release.outputs.version }}
+          args: set image -n ${{ env.APPLICATION_NAME }} deployment/${{ env.APPLICATION_NAME }}-prod ${{ env.APPLICATION_NAME }}-prod=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
 
-      - name: 📤 Deploy production
+      - name: 🚀 Deploy v${{ needs.release.outputs.version }} to production
         uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
         with:
-          args: rollout -n docs-prod restart deployment docs-prod
+          args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prod
 ```
