@@ -1,4 +1,3 @@
----
 - hosts: all localhost # or a specific host, here is 'all' nodes in the inventory
   become: true # mean that the user will be able to run commands as root (sudo)
   tasks: # tasks to run
