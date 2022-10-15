@@ -116,7 +116,7 @@ const config = {
       docs: {
         // documentation about how to custom sidebar https://docusaurus.io/docs/sidebar#theme-configuration
         sidebar: {
-          autoCollapseCategories: true,
+          // autoCollapseCategories: true,
           hideable: true,
         },
       },
