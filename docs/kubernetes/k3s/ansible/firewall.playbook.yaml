@@ -1,4 +1,4 @@
-- hosts: localhost workers # or a specific host, here is localhost and workers group
+- hosts: all localhost # or a specific host, here is localhost and workers group
   become: true # mean that the user will be able to run commands as root (sudo)
   tasks: # tasks to run on the host
     - name: Autorize INPUT/FORWARD/OUTPUT firewall rules for localhost and workers group
