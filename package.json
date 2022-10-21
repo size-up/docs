@@ -3,7 +3,7 @@
   "version": "1.1.4",
   "displayName": "This is Cloud",
   "description": "Documentation that describes many tips and tricks on many IT topics. Configuration references and useful files and links used to construct beautiful and efficient IT infrastructures with Open Source tools.",
-  "private": true,
+  "license": "GNU GPLv3",
   "repository": {
     "type": "git",
     "url": "https://github.com/size-up/docs.git"
