@@ -1,3 +1,11 @@
+# [v1.3.0](https://github.com/size-up/docs/compare/v1.2.0...v1.3.0) (2022-10-21)
+
+## ✨ Introduce new features
+- [`e112d3c`](https://github.com/size-up/docs/commit/e112d3c)  Search offline/local plugin 
+
+## 🔧 Add or update configuration files
+- [`85c9c71`](https://github.com/size-up/docs/commit/85c9c71)  Add Visual Studio Code launch config.
+
 # [v1.2.0](https://github.com/size-up/docs/compare/v1.1.4...v1.2.0) (2022-10-21)
 
 ## ✨ Introduce new features
