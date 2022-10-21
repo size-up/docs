@@ -23,6 +23,7 @@ const application = {
 
   organization: {
     name: packageJson.author.name,
+    url: "https://sizeup.cloud",
     github: {
       account: "size-up",
       url: "https://github.com/size-up",
@@ -34,7 +35,7 @@ const application = {
 const config = {
   title: application.title,
   tagline: application.description,
-  url: application.repository,
+  url: application.organization.url,
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
