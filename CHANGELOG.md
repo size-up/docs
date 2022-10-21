@@ -1,3 +1,8 @@
+# [v1.2.0](https://github.com/size-up/docs/compare/v1.1.4...v1.2.0) (2022-10-21)
+
+## ✨ Introduce new features
+- [`be04a9e`](https://github.com/size-up/docs/commit/be04a9e)  Add Linux - Ubuntu Cheat Sheet
+
 # [v1.1.4](https://github.com/size-up/docs/compare/v1.1.3...v1.1.4) (2022-10-15)
 
 # [v1.1.3](https://github.com/size-up/docs/compare/v1.1.2...v1.1.3) (2022-10-15)
