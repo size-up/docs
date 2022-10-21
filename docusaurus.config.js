@@ -96,6 +96,11 @@ const config = {
             label: "Documentation",
           },
           {
+            to: "/docs/category/ubuntu",
+            label: "Ubuntu",
+            position: "left",
+          },
+          {
             to: "/docs/category/kubernetes",
             label: "Kubernetes",
             position: "left",
@@ -131,16 +136,16 @@ const config = {
                 to: "/docs/summary",
               },
               {
+                label: "Ubuntu",
+                to: "/docs/category/ubuntu",
+              },
+              {
                 label: "Kubernetes",
                 to: "/docs/category/kubernetes",
               },
               {
                 label: "Kubernetes get started with k3s",
                 to: "/docs/kubernetes/k3s/get-started",
-              },
-              {
-                label: "GitHub self hosted runner",
-                to: "/docs/github/actions/selfhosted-runners",
               },
             ],
           },
@@ -167,6 +172,10 @@ const config = {
               {
                 label: "Blog posts",
                 to: "/blog",
+              },
+              {
+                label: "GitHub self hosted runner",
+                to: "/docs/github/actions/selfhosted-runners",
               },
             ],
           },
