@@ -38,11 +38,16 @@ npm install --save-dev @semantic-release/exec
 
 In the `.releaserc` file:
 
+:::caution
+The `set-output` command is [deprecated and will be disabled on 31st May 2023](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/).<br/>
+Please upgrade to using environment files or job outputs instead.
+:::
+
 ```yaml title=".releaserc"
 [
   "@semantic-release/exec",
   {
-    "publishCmd": "echo ::set-output name=nextVersion::${nextRelease.version}",
+    "publishCmd": 'echo "nextVersion=${nextRelease.version}" >> $GITHUB_OUTPUT',
   },
 ]
 ```
