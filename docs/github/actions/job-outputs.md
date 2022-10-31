@@ -33,6 +33,15 @@ To use job **outputs** in a dependent job, you can use the **needs** context.
 
 ## Worflow example
 
+:::info
+See documentation for more information: [GitHub Actions documentation](https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-output-parameter).
+:::
+
+:::caution
+The `set-output` command is [deprecated and will be disabled on 31st May 2023](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/).<br/>
+Please upgrade to using environment files or job outputs instead.
+:::
+
 ```yaml
 jobs:
   job1:
@@ -47,9 +56,9 @@ jobs:
 
     steps:
       - id: step1
-        run: echo "::set-output name=test::hello"
+        run: echo "test=hello" >> $GITHUB_OUTPUT
       - id: step2
-        run: echo "::set-output name=test::world"
+        run: echo "test=hello" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-latest

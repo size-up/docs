@@ -67,16 +67,14 @@ module.exports = {
     [
       "@semantic-release/git",
       {
-        message:
-          ":bookmark: Release v${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]",
+        message: ":bookmark: Release v${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]",
       },
     ],
     "@semantic-release/github",
     [
       "@semantic-release/exec",
       {
-        publishCmd:
-          "echo ::set-output name=nextVersion::${nextRelease.version}",
+        publishCmd: 'echo "nextVersion=${nextRelease.version}" >> $GITHUB_OUTPUT',
       },
     ],
   ],
