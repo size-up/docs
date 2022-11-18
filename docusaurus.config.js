@@ -64,7 +64,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: `${application.repository}/blob/main/`,
+          editUrl: `${application.repository.slice(0, -4)}/blob/main/`,
         },
         blog: {
           showReadingTime: true,
@@ -181,9 +181,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} ${
-          application.organization.name
-        } organization.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ${application.organization.name} organization.`,
       },
       prism: {
         theme: lightCodeTheme,
