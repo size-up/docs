@@ -1,3 +1,15 @@
+# [v1.4.0](https://github.com/size-up/docs/compare/v1.3.2...v1.4.0) (2022-11-18)
+
+## ✨ Introduce new features
+- [`08009bd`](https://github.com/size-up/docs/commit/08009bd)  Add &quot;Oh My Zsh&quot; page with &quot;Powerlevel10k theme&quot; 
+- [`a5ba3f2`](https://github.com/size-up/docs/commit/a5ba3f2)  New Resources with Useful links page 
+
+## 🐛 Bug fixes
+- [`dc141ca`](https://github.com/size-up/docs/commit/dc141ca)  Fix &quot;Edit this page&quot; button URL links 
+
+## 🔧 Add or update configuration files
+- [`a850ddd`](https://github.com/size-up/docs/commit/a850ddd)  Add &#x60;CODEOWNERS&#x60;
+
 # [v1.3.2](https://github.com/size-up/docs/compare/v1.3.1...v1.3.2) (2022-11-18)
 
 # [v1.3.1](https://github.com/size-up/docs/compare/v1.3.0...v1.3.1) (2022-10-31)
