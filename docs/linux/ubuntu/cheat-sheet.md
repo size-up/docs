@@ -165,15 +165,15 @@ git log --all --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%
 
 ### Rebase
 
-:::tip
-The shortcut of `HEAD` is `@`.
-:::
-
 For instance, a git rebase interactive from your current branch, to the 3 previous commits:
 
 ```bash
 git rebase -i HEAD~3
 ```
+
+:::tip
+The shortcut of `HEAD` is `@`.
+:::
 
 ```bash
 git rebase -i @~3
@@ -181,8 +181,6 @@ git rebase -i @~3
 
 :::tip
 `HEAD` is the current branch. `HEAD~1` is the previous commit. `HEAD~2` is the commit before the previous one. And so on.
-
-The shortcut of `HEAD` is `@`.
 :::
 
 An other example, a git rebase interactive from the current branch, to the commit `123456789`:
@@ -215,4 +213,34 @@ Root can issue shorter time.
 
 ```bash
 sudo ping -i 0.01 server.com
+```
+
+## Files and directories
+
+### Base64
+
+**Encode** a **file** to base64
+
+```bash
+base64 file.txt
+```
+
+**Decode** a base64 **file**
+
+```bash
+base64 --decode file.txt
+```
+
+---
+
+**Encode** from **stdin** to base64
+
+```bash
+echo "Hello World" | base64
+```
+
+**Decode** from **stdin** to base64
+
+```bash
+echo "SGVsbG8gV29ybGQ=" | base64 --decode
 ```
