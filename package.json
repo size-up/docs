@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "displayName": "This is Cloud",
   "description": "Documentation that describes many tips and tricks on many IT topics. Configuration references and useful files and links used to construct beautiful and efficient IT infrastructures with Open Source tools.",
   "license": "GNU GPLv3",
