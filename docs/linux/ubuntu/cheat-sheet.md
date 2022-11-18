@@ -244,3 +244,23 @@ echo "Hello World" | base64
 ```bash
 echo "SGVsbG8gV29ybGQ=" | base64 --decode
 ```
+
+## Find a file
+
+Find is a command-line utility for searching files and directories in a Unix-like computer operating systems.
+
+```bash
+find [where to start searching from] [expression determines what to find] [-options] [what to find]`
+```
+
+Find a **file**
+
+```bash
+find /directory -name "file.txt"
+```
+
+Find a **file** with a **pattern**
+
+```bash
+find /directory -name "*file*.txt"
+```
