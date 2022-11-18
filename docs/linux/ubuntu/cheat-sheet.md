@@ -84,6 +84,17 @@ uptime
 kill -9 pid_number
 ```
 
+:::tip
+To find the `pid_number` of a process, use the `ps` command or `ps aux` to see all process, or `top` command.
+
+Coupled with `grep` to filter the process you want to kill, example:
+
+```bash
+ps aux | grep process_name
+```
+
+:::
+
 ---
 
 ### Avoid typing password as **`sudo`**
