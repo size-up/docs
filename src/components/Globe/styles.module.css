@@ -1,0 +1,11 @@
+.container {
+  background-color: #005c9e;
+  border-radius: 20px;
+}
+
+.globe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
