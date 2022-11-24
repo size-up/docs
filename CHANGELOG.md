@@ -1,3 +1,9 @@
+# [v1.4.1](https://github.com/size-up/docs/compare/v1.4.0...v1.4.1) (2022-11-24)
+
+## 🐛 Bug fixes
+- [`5e444c1`](https://github.com/size-up/docs/commit/5e444c1)  Set &#x60;powerlevel10k&#x60; theme in &#x60;~/.zshrc&#x60; 
+- [`7a78fd9`](https://github.com/size-up/docs/commit/7a78fd9)  Missing Oh My Zsh tile message
+
 # [v1.4.0](https://github.com/size-up/docs/compare/v1.3.2...v1.4.0) (2022-11-18)
 
 ## ✨ Introduce new features
