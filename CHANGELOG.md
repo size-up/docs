@@ -1,3 +1,5 @@
+# [v1.4.2](https://github.com/size-up/docs/compare/v1.4.1...v1.4.2) (2022-11-24)
+
 # [v1.4.1](https://github.com/size-up/docs/compare/v1.4.0...v1.4.1) (2022-11-24)
 
 ## 🐛 Bug fixes
