@@ -43,14 +43,18 @@ With using Oh My Zsh, [you can install Powerlevel10k theme](https://github.com/r
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
+Then, you need to set `ZSH_THEME="powerlevel10k/powerlevel10k"` in your `~/.zshrc` and restart your terminal.
+
+```bash
+echo ZSH_THEME="powerlevel10k/powerlevel10k" >> ~/.zshrc
+```
+
 ### Update
 
 ```bash
 cd ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 git pull
 ```
-
-Then, you need to set `ZSH_THEME="powerlevel10k/powerlevel10k"` in your `~/.zshrc` and restart your terminal.
 
 ### Configuration
 
@@ -62,10 +66,11 @@ The configuration will be saved in the file `~/.p10k.zsh`.
 
 ## Bonus
 
-On trick command to install Oh My Zsh and Powerlevel10k theme:
+On trick command to install Oh My Zsh and Powerlevel10k theme
 
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
 cd ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k && \
-git pull
+git pull && \
+echo ZSH_THEME="powerlevel10k/powerlevel10k" >> ~/.zshrc
 ```
