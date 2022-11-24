@@ -48,6 +48,8 @@ cd ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 git pull
 ```
 
+Then, you need to set `ZSH_THEME="powerlevel10k/powerlevel10k"` in your `~/.zshrc` and restart your terminal.
+
 ### Configuration
 
 ```bash
