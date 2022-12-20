@@ -42,12 +42,6 @@ jobs:
       - name: ⚙️ Build application
         run: yarn run build
 
-      - name: 📤 Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: ./build
-
       - if: steps.yarn-cache.outputs.cache-hit != 'true'
         name: 🗃 List the state of node modules
         continue-on-error: true
@@ -100,12 +94,6 @@ jobs:
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
-
-      - name: 📥 Download build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: ./build
 
       - name: ⚙️ Set up QEMU
         uses: docker/setup-qemu-action@v2
