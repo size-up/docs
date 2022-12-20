@@ -1,3 +1,8 @@
+# [v1.4.3](https://github.com/size-up/docs/compare/v1.4.2...v1.4.3) (2022-12-20)
+
+## 🐛 Bug fixes
+- [`de8aeb3`](https://github.com/size-up/docs/commit/de8aeb3)  k3s documentation about &#x60;EXTERNAL_IP&#x60;
+
 # [v1.4.2](https://github.com/size-up/docs/compare/v1.4.1...v1.4.2) (2022-11-24)
 
 # [v1.4.1](https://github.com/size-up/docs/compare/v1.4.0...v1.4.1) (2022-11-24)
