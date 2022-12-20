@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Useful links and resources
+# Useful links
 
 ## Code and programming
 

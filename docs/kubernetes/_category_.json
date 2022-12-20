@@ -1,6 +1,6 @@
 {
   "label": "Kubernetes",
-  "position": 3,
+  "position": 4,
   "link": {
     "type": "generated-index",
     "description": "All content related to Kubernetes, k3s and other."
