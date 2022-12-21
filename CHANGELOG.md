@@ -1,3 +1,11 @@
+# [v1.5.0](https://github.com/size-up/docs/compare/v1.4.3...v1.5.0) (2022-12-21)
+
+## ✨ Introduce new features
+- [`b73937e`](https://github.com/size-up/docs/commit/b73937e)  macOS software list 
+
+## 🚚 Move or rename resources (e.g.: files, paths, routes)
+- [`f9abc9e`](https://github.com/size-up/docs/commit/f9abc9e)  Relocate k3s docs and links with other minor adjustments (#43) (Issues: [`#43`](https://github.com/size-up/docs/issues/43))
+
 # [v1.4.3](https://github.com/size-up/docs/compare/v1.4.2...v1.4.3) (2022-12-20)
 
 ## 🐛 Bug fixes
