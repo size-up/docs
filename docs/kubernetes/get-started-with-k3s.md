@@ -139,7 +139,7 @@ sudo timedatectl set-timezone Europe/Paris
 
 :::
 
-Misc. configuration _(like timezone setup)_, [direct link to the the yaml file](./k3s/ansible/config.playbook.yaml):
+Misc. configuration _(like timezone setup)_, [direct link to the the yaml file](./assets/ansible/config.playbook.yaml):
 
 ```shell title="config.playbook.yaml"
 ansible-playbook ./ansible/config.playbook.yaml
