@@ -94,7 +94,7 @@ const config = {
             type: "doc",
             docId: "summary",
             position: "left",
-            label: "Documentation",
+            label: "Summary",
           },
           {
             to: "/docs/category/ubuntu",
@@ -146,7 +146,7 @@ const config = {
               },
               {
                 label: "Kubernetes get started with k3s",
-                to: "/docs/kubernetes/k3s/get-started",
+                to: "/docs/kubernetes/get-started-with-k3s",
               },
             ],
           },
