@@ -68,7 +68,7 @@ Nous avons donc :
 
 # Démonstration !
 
-[Note pour la démonstration](@site/docs/kubernetes/k3s/get-started.md).
+[Note pour la démonstration](@site/docs/kubernetes/get-started-with-k3s.md).
 
 # Pour aller plus loin
 

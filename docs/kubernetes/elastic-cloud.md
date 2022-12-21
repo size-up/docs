@@ -4,6 +4,8 @@ sidebar_position: 3
 
 # Elastic Cloud
 
+Install and manage **Elasticsearch** and **Kibana** on Kubernetes.
+
 ![Elasticsearch](@site/static/img/svg/logo-elasticsearch.svg) **+**
 ![Kibana](@site/static/img/svg/logo-kibana.svg) **=**
 ![Elastic Cloud](@site/static/img/svg/logo-elastic-cloud.svg) **[Elastic Cloud](https://www.elastic.co/fr/cloud/)** on <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" alt="Kubernetes logo" width="38"/>.

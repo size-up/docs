@@ -116,13 +116,13 @@ ansible workers -m ping
 
 ### Run **Ansible** playbooks
 
-Update and upgrade all nodes, [direct link to the the yaml file](./ansible/upgrade.playbook.yaml):
+Update and upgrade all nodes, [direct link to the the yaml file](./assets/ansible/upgrade.playbook.yaml):
 
 ```shell title="upgrade.playbook.yaml"
 ansible-playbook ./ansible/upgrade.playbook.yaml
 ```
 
-Configure firewall rules, [direct link to the the yaml file](./ansible/firewall.playbook.yaml):
+Configure firewall rules, [direct link to the the yaml file](./assets/ansible/firewall.playbook.yaml):
 
 ```shell title="firewall.playbook.yaml"
 ansible-playbook ./ansible/firewall.playbook.yaml
@@ -139,7 +139,7 @@ sudo timedatectl set-timezone Europe/Paris
 
 :::
 
-Misc. configuration _(like timezone setup)_, [direct link to the the yaml file](./ansible/config.playbook.yaml):
+Misc. configuration _(like timezone setup)_, [direct link to the the yaml file](./k3s/ansible/config.playbook.yaml):
 
 ```shell title="config.playbook.yaml"
 ansible-playbook ./ansible/config.playbook.yaml
