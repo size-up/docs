@@ -95,6 +95,15 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
+      - name: 🌳 Extract branch name
+        shell: bash
+        run: |
+          echo Branch name: ${{ github.head_ref }}
+          branch_name=${{ github.head_ref }} && branch_name_sanitized=${branch_name//\//-} 
+          echo Sanitized branch name: $branch_name_sanitized
+          echo branch_name=$branch_name_sanitized >> $GITHUB_OUTPUT
+        id: branch_name
+
       - name: ⚙️ Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 🛠 Set up Docker Buildx
@@ -105,13 +114,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 🐳 Build and push image latest
+      - name: 🐳 Build and push image [${{ steps.branch_name.outputs.branch_name }}]
         uses: docker/build-push-action@v3
         with:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ steps.branch_name.outputs.branch_name }}
 
       - name: 🐳 Build and push image ${{ needs.release.outputs.version }}
         uses: docker/build-push-action@v3
@@ -122,8 +131,11 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
 
+    outputs:
+      branch_name: ${{ steps.branch_name.outputs.branch_name }}
+
   deploy-prep:
-    name: 🚀 Deploy latest to prep.
+    name: 🚀 Deploy prep. [${{ needs.push.outputs.branch_name }}]
 
     runs-on: ubuntu-latest
 
@@ -134,7 +146,14 @@ jobs:
       url: https://prep.docs.sizeup.cloud
 
     steps:
-      - name: 🚀 Deploy latest to pre-production
+      - name: 🚀 Set image [${{ needs.push.outputs.branch_name }}] to pre-production
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
+        with:
+          args: set image -n ${{ env.APPLICATION_NAME }} deployment/${{ env.APPLICATION_NAME }}-prep ${{ env.APPLICATION_NAME }}-prep=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.push.outputs.branch_name }}
+
+      - name: 🚀 Rollout pre-production
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
@@ -142,7 +161,7 @@ jobs:
           args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prep
 
   deploy-prod:
-    name: 🚀 Deploy v${{ needs.release.outputs.version }} to prod.
+    name: 🚀 Deploy prod. v${{ needs.release.outputs.version }}
 
     runs-on: ubuntu-latest
 
@@ -155,7 +174,7 @@ jobs:
       url: https://docs.sizeup.cloud
 
     steps:
-      - name: 🚀 Deploy v${{ needs.release.outputs.version }} to production
+      - name: 🚀 Deploy to production v${{ needs.release.outputs.version }}
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
