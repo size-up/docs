@@ -1,3 +1,5 @@
+# [v1.5.1](https://github.com/size-up/docs/compare/v1.5.0...v1.5.1) (2023-02-17)
+
 # [v1.5.0](https://github.com/size-up/docs/compare/v1.4.3...v1.5.0) (2022-12-21)
 
 ## ✨ Introduce new features
