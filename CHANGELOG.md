@@ -1,3 +1,5 @@
+# [v1.5.3](https://github.com/size-up/docs/compare/v1.5.2...v1.5.3) (2023-02-21)
+
 # [v1.5.2](https://github.com/size-up/docs/compare/v1.5.1...v1.5.2) (2023-02-17)
 
 ## 🔧 Add or update configuration files
