@@ -20,7 +20,7 @@ env:
 
 jobs:
   build:
-    name: ⚙️ Build application
+    name: ⚙️ Build
 
     runs-on: ubuntu-latest
 
@@ -54,7 +54,7 @@ jobs:
         run: yarn list
 
   release:
-    name: 🔖 Release application
+    name: 🔖 Release
 
     runs-on: ubuntu-latest
 
@@ -131,7 +131,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
 
   deploy-prep:
-    name: 🚀 Deploy latest to prep.
+    name: 🚀 Deploy to prep. latest
 
     runs-on: ubuntu-latest
 
@@ -150,7 +150,7 @@ jobs:
           args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prep
 
   deploy-prod:
-    name: 🚀 Deploy v${{ needs.release.outputs.version }} to prod.
+    name: 🚀 Deploy to prod. v${{ needs.release.outputs.version }}
 
     runs-on: ubuntu-latest
 
