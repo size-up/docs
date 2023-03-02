@@ -7,73 +7,67 @@ tags: [kubernetes, k3s, oci]
 
 # Talk - Kubernetes cluster with Oracle Cloud
 
-> This talk is only translated in french atm.
-
 ## Introduction
 
-Bonjour à toutes, tous, surtout à toutes. 😏
+Hello everyone!
 
-Je m'appelle Anthony Pillot. Je suis directeur technique chez Zenika depuis maintenant plus de 10 ans.
+My name is Anthony Pillot. You may have met me during a performance audit or prestigious training courses given to numerous clients.
 
-> Vous m'avez certainement croisé au détour d'un audit de performance, ou de prestigieuses formations données chez de nombreux clients. Notemment en la présence de Logan Hauspie, mon DTJ (Directeur Technique Junior pour les ignards), que j'accompagne et que je forme chez Zenika, depuis maintenant plus de 4 jours.
+After this more than truthful presentation, I would like to get back to some more serious topics.
 
-Après cette présentation plus que véridique, j'aimerais revenir à des sujets un peu plus sérieux.
-
-Je suis développeur. Le soir je m’ennuie parfois. Avec ce foutu virus, encore plus.
-
-_(Notez la rime s’il vous plaît. J'ai rarement été aussi inspiré.)_
+I am a developer. Sometimes I get bored in the evening. With this damn virus (COVID), even more.
 
 ## Use case
 
-Je développe donc des projets personnels, parfois. Et dans ces (trop) rares cas, je fais un joli docker-compose avec ce dont j’ai besoin pour développer.
+So I develop personal projects, sometimes. And in these (too) rare cases, I create a nice docker-compose with what I need to develop.
 
-> Mon POC prend de l’essor, et j’aimerais le présenter potentiellement à d’autre personne. Ou tout du moins arrêter d'allouer `6 giga octet` de ma machine pour les ressources de Docker.
+> My POC is gaining momentum, and I would like to potentially present it to others. Or at least stop allocating `6 gigabytes` of my machine for Docker resources.
 
-J’aimerais donc posséder une infrastructure fonctionnelle, performante, **prod-ready** (ou en tous cas, **qualif-ready**), sécurisée, et tant qu’à faire, avec des technologies modernes. Mais je n'ai plus d'argent, tout mon budget est alloué à l'achat d'une Mustang GT.
+So I would like to have a functional, performant, **prod-ready** (or at least, **prep-ready**), secure, and if possible, with modern technologies infrastructure. But I don't have any more money, my entire budget is allocated to the purchase of a Mustang GT.
 
-Le baremetal c’est rigolo, mais c’est jamais assez suffisant finalement si ce n'est dépensser plus de 20€ par mois chez OVH, pour [plusieurs VPS chez OVH](https://www.ovhcloud.com/fr/vps/).
+Bare metal is fun, but it's never enough, finally if it's not spending more than €20 per month at OVH, for [several VPS at OVH](https://www.ovhcloud.com/fr/vps/).
 
-> Ce qui est _plus ou moins_ un équivalent à ce qu'il va suivre en terme de performance, et tout ça gratuitement.
+> Which is _more or less_ equivalent to what will follow in terms of performance, and all for free.
 
-## Mise en contexte des différents `Public Cloud providers`
+## Contextualization of different `Public Cloud providers`
 
-Il existe bien sûr des `Public Cloud providers` que vous connaissez tous, et qui propose eux aussi des resources gratuites.
+Of course, there are `Public Cloud providers` that you all know, who also offer free resources.
 
-> `GCP` par exemple, propose quelques resources gratuites mais, si vous avez le malheur d'utiliser une resource qui n'est pas comprise dans ces resources, vous payez. Et personne ne vous préviendra si vous utilisez une resource qui n'est pas dans les resources gratuites. J'en ai fait les frais. Sans compté que les resources gratuites sont extrêmement limitées (Un `e2-micro` à `2 vCPU` et `1 Go` de RAM, _super merci mec_). Évidemment, on oublie tous les `GKE` et autre, qui ne sont absolument pas compris dans ce `Free Tier`.
+> `GCP` for example, offers some free resources but, if you have the misfortune to use a resource that is not included in these resources, you will pay. And no one will warn you if you use a resource that is not in the free resources. I paid the price for it. Not to mention that free resources are extremely limited (an `e2-micro` with `2 vCPUs` and `1 GB` of RAM, _thanks a lot dude_). Obviously, we forget all about `GKE` and others, which are absolutely not included in this `Free Tier`.
 
-Et c'est là que je trouve `Oracle Cloud Infrastructure`, par le biais de notre merveilleux Slack _qui est une mine d'information sans fin, soit dit en passant_. Et plus précisement grâce au [message de Loic Mathieu](https://zenika.slack.com/archives/G01HZ4T67AB/p1622035254013500), Grand Maître Ingénieur Évangéliste du framework `Java Quarkus`, qui m'a donné l'envie de me pencher sur cette offre.
+And that's where I found `Oracle Cloud Infrastructure`, through our wonderful Slack _which is an endless source of information, by the way_. And more specifically thanks to my colleague, who gave me the desire to take a closer look at this offer.
 
-## Présentation d'`Oracle Cloud Infrastructure`
+## Presentation of `Oracle Cloud Infrastructure`
 
-Et donc, en Octobre 2016, `Oracle`, cette merveilleuse entreprise, appréciée de tous les acteurs de l'IT, a donc sorti `Oracle Cloud Infrastructure`.
+And so, in October 2016, `Oracle`, this wonderful company, appreciated by all IT players, released `Oracle Cloud Infrastructure`.
 
-Un service de `Public Cloud provider` qui vise à concurrencer les autres `GCP`, `Azure`, `AWS`, pour ne citer qu'eux.
+A `Public Cloud provider` service that aims to compete with other `GCP`, `Azure`, `AWS`, to name a few.
 
-Et, afin d'attirer les développeurs sur cette nouvelle plateforme, ils proposent un _`free tier`_ nommé le `Always Free Resources`, comme de nombreux autre service de `Public Cloud` donc. Mais, celui-ci est un peu plus généreux que les autres et comme le nom de l'offre l'indique, ce sont des resources qui, sous réserve de changement d'avis de la part d'`Oracle`, sont gratuites à vie.
+To attract developers to their new platform, Oracle offers a free tier called Always Free Resources, like many other public cloud services. But this one is a bit more generous than others, and as the name of the offer suggests, these resources are free for life, subject to change from Oracle.
 
-_(**NDLR** : Il est nécessaire, à l'inscription dans `OCI`, de renseigner sa carte bancaire, afin d'essayer d'éviter que des petits malins comme vous, ne puissiez faire autant de serveur gratuitement, installer un outil de `Cloud Computing` type `OpenStack`, créér votre propre `Public Cloud` et concurrencer `Google` !)_
+(Note: When signing up for OCI, you must provide your credit card information to prevent people from creating too many servers for free, installing a Cloud Computing tool like OpenStack, creating your own Public Cloud, and competing with Google!)
 
-## Contenu d'`OCI` - `Always Free Resources`
+## OCI Always Free Resources
 
 ![oci-always-free-resources](./oci-always-free-resources.png)
 
-Nous avons donc :
+The resources included in OCI's Always Free tier are:
 
-- Deux petites VMs `AMDs` avec chacun : `1 core OCPU`, `1 GB memory`, `0.48 Gbps` de bande passante.
-- Et surtout, une VM `ARM` avec : `4 core OCPU`, `24 GB memory`, `4 Gbps` de bande passante ; divisible en 4 petites VMs de `1 core OCPU`, `4 GB memory`, et `1 Gbps` bande passante cette fois.
-- Leurs `200 GB Block Volumes Storage` ; qui sont en fait des emplacements de stockage rattachable à n'importe quelle VM.
-- Deux bases de données managés de `20 GB` chacune.
-- Limitation globale de bande passante chez `OCI` : `10 TB` par mois.
-- Et tout un tas d'autre services et resources qui sont, apparemment, gratuite à vie.
+- Two small AMD VMs, each with 1 OCPU core, 1 GB memory, and 0.48 Gbps bandwidth.
+- And most importantly, an ARM VM with 4 OCPU cores, 24 GB memory, and 4 Gbps bandwidth; it can be divided into 4 small VMs with 1 OCPU core, 4 GB memory, and 1 Gbps bandwidth this time.
+- 200 GB Block Volumes Storage, which are storage locations that can be attached to any VM.
+- Two managed databases of 20 GB each.
+- Global bandwidth limit at OCI: 10 TB per month.
+- And a bunch of other services and resources that are apparently free for life.
 
-# Démonstration !
+# Demo!
 
-[Note pour la démonstration](@site/docs/kubernetes/get-started-with-k3s.md).
+[Note for the demo](@site/docs/kubernetes/get-started-with-k3s.md).
 
-# Pour aller plus loin
+# Going Further
 
-Et si cette présentation vous a intéressé et que vous souhaiteriez aller plus loin, il me sera possible de vous parler d'autre features à apporter à notre tout nouveau petit `cluster` :
+If you're interested in this presentation and would like to learn more, we can talk about other features to add to our brand new little cluster:
 
-- Installation de `cert-manager` pour la génération automatique de certificats SSL.
-- Installation des `Ingress Kubernetes` pour le routage des applications et le load balancing.
-- Mise en place de son nom de domaine, `DNS`, pour le routage des applications (e.g. `*.mon-domaine.com` ; `elastic.mon-domaine.com`, `data.mon-domaine.com`, etc.).
+- Install cert-manager for automatic SSL certificate generation.
+- Install Kubernetes Ingress for application routing and load balancing.
+- Set up your domain name, DNS, for application routing (e.g. \*.my-domain.com; elastic.my-domain.com, data.my-domain.com, etc.).
