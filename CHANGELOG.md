@@ -1,3 +1,14 @@
+# [v1.6.0](https://github.com/size-up/docs/compare/v1.5.6...v1.6.0) (2023-03-23)
+
+## ✨ Introduce new features
+- [`55a5ac6`](https://github.com/size-up/docs/commit/55a5ac6)  Delete workflow and all its runs docs 
+
+## 🔧 Add or update configuration files
+- [`b15fb9b`](https://github.com/size-up/docs/commit/b15fb9b)  VSCode tasks addition 
+
+## 🚚 Move or rename resources (e.g.: files, paths, routes)
+- [`0cb76be`](https://github.com/size-up/docs/commit/0cb76be)  Rename workflow to 🔄 CI/CD
+
 # [v1.5.6](https://github.com/size-up/docs/compare/v1.5.5...v1.5.6) (2023-03-08)
 
 # [v1.5.5](https://github.com/size-up/docs/compare/v1.5.4...v1.5.5) (2023-02-22)
