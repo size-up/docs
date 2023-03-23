@@ -1,6 +1,6 @@
 # This is Cloud - Documentation website
 
-[![CI/CD and release](https://github.com/size-up/docs/actions/workflows/onPushMainPrMain.yaml/badge.svg?branch=main)](https://github.com/size-up/docs/actions/workflows/onPushMainPrMain.yaml)
+[![🔄 CI/CD](https://github.com/size-up/docs/actions/workflows/ci-cd.yaml/badge.svg?branch=main)](https://github.com/size-up/docs/actions/workflows/ci-cd.yaml)
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/size-up/docs?label=application%20version) ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/sizeup/docs?label=image%20version) ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/sizeup/docs)
 
