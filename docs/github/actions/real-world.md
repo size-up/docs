@@ -8,24 +8,31 @@ sidebar_position: 999
 This example is directly inspired from the `docs` repository _(where you are connected_ 🤯*)*.
 :::
 
-```yaml title="onPushMainPrMain.yaml"
+```yaml title="ci-cd.yaml"
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: CI/CD and release
+name: 🔄 CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "beta", "*.*.*"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "beta", "*.*.*"]
+
+  workflow_dispatch: # allow manual trigger
+
+  # Used by the GitHub merge queue feature.
+  # Documentation: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue
+  merge_group:
 
 env:
-  APPLICATION_NAME: "docs"
+  NAMESPACE_NAME: "docs"
+  IMAGE_NAME: "docs"
 
 jobs:
   build:
-    name: ⚙️ Build application
+    name: ⚙️ Build
 
     runs-on: ubuntu-latest
 
@@ -53,23 +60,19 @@ jobs:
       - name: ⚙️ Build application
         run: yarn run build
 
-      - name: 📤 Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: ./build
-
       - if: steps.yarn-cache.outputs.cache-hit != 'true'
         name: 🗃 List the state of node modules
         continue-on-error: true
         run: yarn list
 
   release:
-    name: 🔖 Release application
+    name: 🔖 Release
 
     runs-on: ubuntu-latest
 
     needs: build
+
+    if: ${{ github.event_name != 'merge_group' }} # skip this job if the event is a merge_group
 
     steps:
       - name: 📥 Checkout repository
@@ -112,12 +115,6 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: 📥 Download build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: ./build
-
       - name: ⚙️ Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 🛠 Set up Docker Buildx
@@ -134,7 +131,7 @@ jobs:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
       - name: 🐳 Build and push image ${{ needs.release.outputs.version }}
         uses: docker/build-push-action@v3
@@ -143,10 +140,10 @@ jobs:
           context: . # https://github.com/marketplace/actions/build-and-push-docker-images#git-context
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ needs.release.outputs.version }}
 
   deploy-prep:
-    name: 🚀 Deploy latest to prep.
+    name: 🚀 Deploy prep. [latest]
 
     runs-on: ubuntu-latest
 
@@ -157,38 +154,32 @@ jobs:
       url: https://prep.docs.sizeup.cloud
 
     steps:
-      - name: 🚀 Deploy latest to pre-production
-        uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
+      - name: ⚙️ Set up kubectl
+        uses: tale/kubectl-action@v1
         with:
-          args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prep
+          base64-kube-config: ${{ secrets.OCI_KUBE_CONFIG }}
+
+      - name: 🚀 Deploy to prep-production [latest]
+        run: kubectl rollout -n ${{ env.NAMESPACE_NAME }} restart deployment ${{ env.NAMESPACE_NAME }}-prep
 
   deploy-prod:
-    name: 🚀 Deploy v${{ needs.release.outputs.version }} to prod.
+    name: 🚀 Deploy prod. [v${{ needs.release.outputs.version }}]
 
     runs-on: ubuntu-latest
 
     needs: [release, push]
 
-    if: ${{ needs.release.outputs.version }} # deploy only if there is a new published version
+    # deploy only if there is a new published version
+    if: ${{ needs.release.outputs.version }}
 
-    environment:
-      name: production # refer to https://github.com/size-up/docs/settings/environments
-      url: https://docs.sizeup.cloud
+    environment: production # refer to https://github.com/size-up/docs/settings/environments
 
     steps:
-      - name: ⚙️ Set tag image
-        uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
+      - name: ⚙️ Set up kubectl
+        uses: tale/kubectl-action@v1
         with:
-          args: set image -n ${{ env.APPLICATION_NAME }} deployment/${{ env.APPLICATION_NAME }}-prod ${{ env.APPLICATION_NAME }}-prod=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ needs.release.outputs.version }}
+          base64-kube-config: ${{ secrets.OCI_KUBE_CONFIG }}
 
-      - name: 🚀 Deploy v${{ needs.release.outputs.version }} to production
-        uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.OCI_KUBE_CONFIG }}
-        with:
-          args: rollout -n ${{ env.APPLICATION_NAME }} restart deployment ${{ env.APPLICATION_NAME }}-prod
+      - name: 🚀 Deploy to production [v${{ needs.release.outputs.version }}]
+        run: kubectl set image -n ${{ env.NAMESPACE_NAME }} deployment/${{ env.IMAGE_NAME }}-prod ${{ env.IMAGE_NAME }}-prod=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ needs.release.outputs.version }}
 ```
