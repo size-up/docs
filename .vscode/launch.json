@@ -5,12 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "preLaunchTask": "install",
       "command": "yarn run start:host",
       "name": "Launch [Development]",
       "request": "launch",
       "type": "node-terminal"
     },
     {
+      "preLaunchTask": "install",
       "command": "yarn run build && yarn run serve",
       "name": "Launch [Production]",
       "request": "launch",
