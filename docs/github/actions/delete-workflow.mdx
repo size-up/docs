@@ -1,0 +1,65 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Delete workflow and all its runs
+
+## Why delete an entire workflow?
+
+- You have created experimental workflows in the `.github/workflows` folder of your repository and you want to delete them permanently.
+- You have accidentally leaked confidential information or credentials in the logs of a workflow and you want to erase them.
+- You want to rename your workflow and don't want to keep the old name in the list of available workflows.
+
+:::warning
+Note that this operation is irreversible and you will lose all logs and artifacts associated with the deleted workflow. If you want to keep a record of your old workflows, you can archive them in a separate branch or repository before deleting them.
+:::
+
+We hope this documentation has been helpful for managing your GitHub workflows.
+
+## How to delete a workflow
+
+### Install the [GitHub CLI](https://github.com/cli/cli#installation)
+
+<Tabs groupId="operating-systems">
+  <TabItem value="linux" label="Linux">
+
+```bash
+sudo apt install gh
+```
+
+  </TabItem>
+  <TabItem value="macOS" label="macOS">
+
+```bash
+brew install gh
+```
+
+  </TabItem>
+</Tabs>
+
+### Log in to your GitHub account
+
+```bash
+gh auth login
+```
+
+Then, follow the instructions.
+
+### Command to delete all workflows
+
+:::caution
+`GH_USERNAME_OR_ORG` is your GitHub username or organization name.
+:::
+
+```bash title="bash"
+user="GH_USERNAME_OR_ORG" repo="REPO_NAME"; gh api repos/$user/$repo/actions/runs \
+--paginate -q '.workflow_runs[] | select(.head_branch != "master") | "\(.id)"' | \
+xargs -n1 -I % gh api --silent repos/$user/$repo/actions/runs/% -X DELETE
+```
+
+:::info
+May need to re-run the command because of the rate limit of the GitHub API.
+:::
