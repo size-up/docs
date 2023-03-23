@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# GitHub self hosted runner
+# Self hosted runner
 
 GitHub self hosted runner with **actions-runner-controller** installation in a Kubernetes cluster.
 

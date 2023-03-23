@@ -47,18 +47,18 @@ jobs:
   job1:
     runs-on: ubuntu-latest
 
+    steps:
+      - id: step1
+        run: echo "test=hello" >> $GITHUB_OUTPUT
+      - id: step2
+        run: echo "test=hello" >> $GITHUB_OUTPUT
+
     // highlight-start
     # Map a step output to a job output
     outputs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test }}
     // highlight-end
-
-    steps:
-      - id: step1
-        run: echo "test=hello" >> $GITHUB_OUTPUT
-      - id: step2
-        run: echo "test=hello" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-latest

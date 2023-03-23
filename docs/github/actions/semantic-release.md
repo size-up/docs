@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Semantic release
+# Semantic release version in job
 
 ## Get version from semantic release
 

@@ -38,7 +38,7 @@ jobs:
     needs: test
 
     // highlight-next-line
-    if: github.ref == 'refs/heads/main'
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Deploy app
         run: exit 0
