@@ -2,9 +2,6 @@
 sidebar_position: 3
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-
 # Delete workflow and all its runs
 
 ## Why delete an entire workflow GitHub Actions ?
@@ -20,6 +17,9 @@ Note that this operation is irreversible and you will lose all logs and artifact
 ## How to delete all GitHub Actions workflow
 
 ### Install the [GitHub CLI](https://github.com/cli/cli#installation)
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 <Tabs groupId="operating-systems">
   <TabItem value="linux" label="Linux">
@@ -52,21 +52,36 @@ Then, follow the instructions.
 `GH_USERNAME_OR_ORG` is your GitHub username or organization name.
 :::
 
-```bash title="bash"
+<Tabs groupId="delete-workflow">
+  <TabItem value="all" label="Delete all workflows">
+
+```bash
+user="GH_USERNAME_OR_ORG" repo="REPO_NAME"; gh api repos/$user/$repo/actions/runs \
+--paginate -q '.workflow_runs[] | "\(.id)"' | \
+xargs -n1 -I % gh api --silent repos/$user/$repo/actions/runs/% -X DELETE
+```
+
+  </TabItem>
+  <TabItem value="allExceptMain" label="Delete all workflows except workflow triggered on main branch">
+
+```bash
 user="GH_USERNAME_OR_ORG" repo="REPO_NAME"; gh api repos/$user/$repo/actions/runs \
 --paginate -q '.workflow_runs[] | select(.head_branch != "main") | "\(.id)"' | \
 xargs -n1 -I % gh api --silent repos/$user/$repo/actions/runs/% -X DELETE
 ```
 
+  </TabItem>
+</Tabs>
+
 The command will take a long time to run if you have a lot of workflows.
 
 :::info
-May need to re-run the command to remove all workflows, because of the rate limit of the GitHub API.
+May need to re-run the command to delete all workflows, because of the rate limit of the GitHub API.
 :::
 
 :::tip
 
 - Remove the `--silent` flag to see the output of the command.
-- Can run the command in the background by adding `&` to the end of the command.
+- Add `&` to the end of the command to run it in the background.
 
 :::
