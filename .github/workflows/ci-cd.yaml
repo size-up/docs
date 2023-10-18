@@ -148,7 +148,10 @@ jobs:
         with:
           base64-kube-config: ${{ secrets.OCI_KUBE_CONFIG }}
 
-      - name: 🚀 Deploy to prep-production [latest]
+      - name: 🚀 Set image tag to [latest]
+        run: kubectl set image -n ${{ env.NAMESPACE_NAME }} deployment/${{ env.IMAGE_NAME }}-prep ${{ env.IMAGE_NAME }}-prep=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: 🚀 Rollout prep-production deployment
         run: kubectl rollout -n ${{ env.NAMESPACE_NAME }} restart deployment ${{ env.NAMESPACE_NAME }}-prep
 
   deploy-prod:
@@ -169,5 +172,5 @@ jobs:
         with:
           base64-kube-config: ${{ secrets.OCI_KUBE_CONFIG }}
 
-      - name: 🚀 Deploy to production [v${{ needs.release.outputs.version }}]
+      - name: 🚀 Set image tag to [v${{ needs.release.outputs.version }}]
         run: kubectl set image -n ${{ env.NAMESPACE_NAME }} deployment/${{ env.IMAGE_NAME }}-prod ${{ env.IMAGE_NAME }}-prod=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ needs.release.outputs.version }}
