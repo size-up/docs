@@ -1,3 +1,5 @@
+# [v1.6.5](https://github.com/size-up/docs/compare/v1.6.4...v1.6.5) (2023-10-18)
+
 # [v1.6.4](https://github.com/size-up/docs/compare/v1.6.3...v1.6.4) (2023-09-29)
 
 # [v1.6.3](https://github.com/size-up/docs/compare/v1.6.2...v1.6.3) (2023-07-13)
