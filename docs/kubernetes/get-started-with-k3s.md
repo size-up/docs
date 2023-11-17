@@ -40,7 +40,7 @@ Preparation of the control plane node.
 
 You **must configure iptables** to allow Kubernetes to communicate with other pods in its sub-network.
 
-```shell
+```bash
 sudo iptables --insert INPUT --source 10.0.0.0/8 --jump ACCEPT && \
 sudo iptables --insert INPUT --destination 10.0.0.0/8 --jump ACCEPT && \
 sudo iptables --insert FORWARD --source 10.0.0.0/8 --jump ACCEPT && \
@@ -61,13 +61,13 @@ From your local machine, copy the ssh key into the server. It'll be used by **An
 Export the `$PRIVATE_KEY` and `$OCI_SERVER_URL` environment variables on your local machine.
 :::
 
-```shell
+```bash
 scp -i $PRIVATE_KEY $PRIVATE_KEY ubuntu@$OCI_SERVER_URL:~/.ssh/
 ```
 
 ### Update and upgrade Ubuntu
 
-```shell
+```bash
 sudo apt update && \
 sudo apt upgrade -y
 
@@ -78,7 +78,7 @@ sudo reboot
 
 ### Install **Ansible** and prepare other nodes for Kubernetes installation
 
-```shell
+```bash
 sudo apt install software-properties-common -y && \
 sudo add-apt-repository --yes --update ppa:ansible/ansible && \
 sudo apt install ansible -y
@@ -86,20 +86,20 @@ sudo apt install ansible -y
 
 Create a `~/.ansible.cfg` file in user's home directory:
 
-```shell title="~/.ansible.cfg"
+```bash title="~/.ansible.cfg"
 [defaults]
 host_key_checking = False
 ```
 
 Modify the ansible's hosts file, located at `/etc/ansible/hosts`:
 
-```shell title="/etc/ansible/hosts"
+```bash title="/etc/ansible/hosts"
 sudo vim /etc/ansible/hosts
 ```
 
 For instance, add the following line in the **Ansible**'s `hosts` file, to create the `workers` group:
 
-```shell title="/etc/ansible/hosts"
+```bash title="/etc/ansible/hosts"
 # My inventory file is located in /etc/ansible/hosts on the cluster.
 
 [workers]
@@ -110,7 +110,7 @@ amd-1 ansible_host=10.0.X.X ansible_ssh_private_key_file=~/.ssh/private.key
 
 Test connection to the nodes:
 
-```shell
+```bash
 ansible workers -m ping
 ```
 
@@ -118,13 +118,13 @@ ansible workers -m ping
 
 Update and upgrade all nodes, [direct link to the the yaml file](./assets/ansible/upgrade.playbook.yaml):
 
-```shell title="upgrade.playbook.yaml"
+```bash title="upgrade.playbook.yaml"
 ansible-playbook ./ansible/upgrade.playbook.yaml
 ```
 
 Configure firewall rules, [direct link to the the yaml file](./assets/ansible/firewall.playbook.yaml):
 
-```shell title="firewall.playbook.yaml"
+```bash title="firewall.playbook.yaml"
 ansible-playbook ./ansible/firewall.playbook.yaml
 ```
 
@@ -133,7 +133,7 @@ From the official Kubernetes documentation, **CronJobs use the time zone of the 
 
 To avoid this, you can set the time zone of the control plane node to whatever time zone you want to use. For instance:
 
-```shell
+```bash
 sudo timedatectl set-timezone Europe/Paris
 ```
 
@@ -141,7 +141,7 @@ sudo timedatectl set-timezone Europe/Paris
 
 Misc. configuration _(like timezone setup)_, [direct link to the the yaml file](./assets/ansible/config.playbook.yaml):
 
-```shell title="config.playbook.yaml"
+```bash title="config.playbook.yaml"
 ansible-playbook ./ansible/config.playbook.yaml
 ```
 
@@ -149,7 +149,7 @@ ansible-playbook ./ansible/config.playbook.yaml
 
 ### Common way to install k3s
 
-```shell
+```bash
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 ```
 
@@ -160,7 +160,7 @@ curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 :::tip
 You can follow the **k3s installation** by executing this command: `sudo tail -f /var/log/syslog`.<br/>If everything is well, you should see the following message:
 
-```shell
+```bash
 Running load balancer 127.0.0.1:6444 -> [<CONTROL_PLANE_IP>:6443]
 ```
 
@@ -170,7 +170,7 @@ Running load balancer 127.0.0.1:6444 -> [<CONTROL_PLANE_IP>:6443]
 
 For instance: install k3s using Docker as container system, do not deploy Traefik Ingress and chown of the `/etc/rancher/k3s/k3s.yaml` file:
 
-```shell
+```bash
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --no-deploy traefik --docker
 ```
 
@@ -178,7 +178,7 @@ curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --no-deploy t
 
 If you plan to use k3s with **public ip nodes** (external of your subnet), you can use the `--node-external-ip=<EXTERNAL_IP>` parameter as:
 
-```shell
+```bash
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --node-external-ip=<EXTERNAL_IP>
 ```
 
@@ -192,13 +192,13 @@ It's also used by the Traefik load balancer to expose services on port 80 and 44
 
 > Optional - Add the following line to your `~/.bashrc` or `~/.zshrc` file (used by **Helm**):
 
-```shell
+```bash
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 ```
 
 - Active the [bash auto-completion](https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/) for `kubectl`.
 
-```shell
+```bash
 source /usr/share/bash-completion/bash_completion && \
 kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null && \
 echo 'alias k=kubectl' >>~/.bashrc && \
@@ -212,14 +212,14 @@ Then, exit and reconnect to the control plane node to active `bash completion`.
 
 Retrieve the `node_token` from the control plane k3s server. The `node_token` is used to identify the node in the cluster.
 
-```shell
+```bash
 sudo cat /var/lib/rancher/k3s/server/node-token
 ```
 
 :::tip
 Before doing the next step, you can check live if the worker nodes are connected to the control plane node by doing:
 
-```shell
+```bash
 watch --interval 1 kubectl get nodes -o=wide
 ```
 
@@ -229,13 +229,13 @@ And then, open a new terminal to continue.
 
 ### Use **Ansible** to connect other nodes to the control plane node
 
-```shell
+```bash
 ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<CONTROL_PLANE_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -"
 ```
 
 <!-- If you are using external public IPs and you want to refer this in your `kubectl get node -o=wide` command, you can use the `--node-external-ip=<EXTERNAL_IP>` parameter as:
 
-```shell
+```bash
 ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<CONTROL_PLANE_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-external-ip=<EXTERNAL_IP>"
 ``` -->
 
@@ -245,13 +245,13 @@ For an **high-availability** cluster, the control plane node is the node that is
 
 `NoSchedule` **taint** is added to the node with the following command:
 
-```shell
+```bash
 kubectl taint node <control-plane-node> node-role.kubernetes.io/control-plane:NoSchedule
 ```
 
 Command to **untaint** it (just put a `-` at the end of the command):
 
-```shell
+```bash
 kubectl taint node <control-plane-node> node-role.kubernetes.io/control-plane:NoSchedule-
 ```
 
@@ -263,15 +263,15 @@ Starting in v1.20, `node-role.kubernetes.io/master:NoSchedule` taint is **deprec
 
 Test the full deployment of the cluster by deploying a simple `whoami` application:
 
-```shell
+```bash
 kubectl create deployment whoami --image=containous/whoami
 ```
 
-```shell
+```bash
 kubectl expose deployment whoami --port=80 --type=NodePort
 ```
 
-```shell
+```bash
 kubectl get svc
 ```
 
@@ -301,7 +301,7 @@ Your Kubernetes cluster with ...
 This installation method will not work if you have more than one **k3s** node cluster. Rancher will show just one **k3s** node cluster. Even if you have more than one **k3s** node cluster. If you want to install Rancher on a multi-node cluster, you will need to install using **helm**.
 :::
 
-```shell
+```bash
 docker run --name rancher -d --restart=unless-stopped -p 80:80 -p 443:443 --privileged rancher/rancher:v2.5.9-head
 ```
 
@@ -317,7 +317,7 @@ See [Installing Rancher on a Single Node Using Docker](https://rancher.com/docs/
 
 Open ports with restricted IPs range on **FORWARD**, **INPUT** and **OUTPUT**:
 
-```shell
+```bash
 sudo iptables --insert INPUT --source 10.0.0.0/8 --jump ACCEPT && \
 sudo iptables --insert INPUT --destination 10.0.0.0/8 --jump ACCEPT && \
 sudo iptables --insert FORWARD --source 10.0.0.0/8 --jump ACCEPT && \
@@ -332,7 +332,7 @@ sudo netfilter-persistent reload
 
 To see actual firewall rules:
 
-```shell
+```bash
 sudo iptables -L
 ```
 
@@ -340,7 +340,7 @@ To accept all incoming traffic you can use following command , -P is to set defa
 
 ### Reset or flush **iptables** configuration
 
-```shell
+```bash
 sudo iptables -F
 sudo iptables -X
 ``` -->
@@ -361,13 +361,13 @@ Solution is to patch the **Traefik** deployment with the **new external IP relat
 
 First, found the internal IP of the control plane node:
 
-```shell
+```bash
 kubectl get nodes -o wide
 ```
 
 Then, patch the **Traefik** deployment with the new external IP:
 
-```shell
+```bash
 kubectl patch svc traefik -n kube-system -p '{"spec":{"externalIPs":["<INTERNAL-OR-PRIVATE-NODE-IP>"]}}'
 ```
 
@@ -379,18 +379,18 @@ k3s is installed with built-in scripts to uninstall and remove all contents.
 
 The `killall` script cleans up containers, k3s directories, and networking components while also removing the iptables chain with all the associated rules. <br/>**The cluster data will not be deleted**.
 
-```shell
+```bash
 /usr/local/bin/k3s-killall.sh
 ```
 
 ### To uninstall **k3s** from a **server** node
 
-```shell
+```bash
 /usr/local/bin/k3s-uninstall.sh
 ```
 
 ### To uninstall **k3s** from an **agent** node
 
-```shell
+```bash
 /usr/local/bin/k3s-agent-uninstall.sh
 ```

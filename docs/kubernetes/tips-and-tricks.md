@@ -10,20 +10,20 @@ Cheet sheet about all Kubernetes commands and contents.
 
 ### See all node are running with more details:
 
-```shell
+```bash
 kubectl get node --all-namespaces --output=wide
 ```
 
 Short hand:
 
-```shell
+```bash
 kubectl get node -A -o=wide
 ```
 
 :::tip
 In the Debian distribution, you can also use the built-in `watch` command, to run a command periodically:
 
-```shell
+```bash
 watch --interval 1 kubectl get node --all-namespaces --output=wide
 ```
 
@@ -31,13 +31,13 @@ watch --interval 1 kubectl get node --all-namespaces --output=wide
 
 ### See all pods are running with more details and stay attach _(--watch)_
 
-```shell
+```bash
 kubectl get pods --all-namespaces -o=wide --watch
 ```
 
 ### Apply directly yaml file in command line:
 
-```shell
+```bash
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Pod
@@ -52,7 +52,7 @@ EOF
 
 ### Set image to a delployment _on the edge_
 
-```shell
+```bash
 kubectl set image -n my-namespace deployment/my-deployment my-pod=my-registry-username/my-image:1.1.0
 ```
 
@@ -62,7 +62,7 @@ kubectl set image -n my-namespace deployment/my-deployment my-pod=my-registry-us
 [Read documentation about **Single Node Cluster**](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
 :::
 
-```shell
+```bash
 kubectl taint nodes <node-name> node-role.kubernetes.io/master:NoSchedule-
 ```
 
@@ -81,7 +81,7 @@ When running this command, `kubectl get node` will show all nodes and their stat
 
 To change the value of the role label, we can run the following command:
 
-```shell
+```bash
 kubectl label nodes <list-of-nodes-separated-by-spaces> kubernetes.io/role=<role-name>
 ```
 
@@ -95,6 +95,6 @@ This will allow us to filter nodes by the label `node-role.kubernetes.io/role=wo
 
 ### Get a k8s secret value and decode it
 
-```shell
+```bash
 kubectl get --all-namespaces secrets my-secret --template="{{index .data \"name-of-the-secret.key\"}}" | base64 --decode
 ```

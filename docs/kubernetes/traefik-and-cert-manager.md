@@ -22,7 +22,7 @@ Traefik is **automatically installed by default with k3s**.
 Remember to check the version of **cert-manager** before applying the YAML file.
 :::
 
-```shell
+```bash
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
