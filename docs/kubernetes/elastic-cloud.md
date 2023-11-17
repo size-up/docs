@@ -46,7 +46,7 @@ Login as the **elastic** user. The password can be obtained with the following c
 Replace **quickstart** by your **Kibana** deployment name.
 :::
 
-```shell
+```bash
 kubectl get secret quickstart-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 ```
 
