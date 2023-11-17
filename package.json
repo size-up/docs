@@ -1,8 +1,8 @@
 {
   "name": "docs",
   "version": "1.6.5",
-  "displayName": "This is Cloud",
-  "description": "Documentation that describes many tips and tricks on many IT topics. Configuration references and useful files and links used to construct beautiful and efficient IT infrastructures with Open Source tools.",
+  "displayName": "Size Up",
+  "description": "Documentation website that describes many tips and tricks on many IT topics. Configuration references, useful files and links used to construct beautiful and efficient IT infrastructures, websites and applications with Open Source technologies.",
   "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
