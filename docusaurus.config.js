@@ -84,8 +84,8 @@ const config = {
       navbar: {
         title: application.title,
         logo: {
+          src: "img/logo.png",
           alt: application.displayName + " logo",
-          src: "img/logo.svg",
         },
         hideOnScroll: true,
         items: [

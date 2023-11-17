@@ -1,10 +1,12 @@
-# This is Cloud - Documentation website
+# Size Up - Documentation website
 
 [![🔄 CI/CD](https://github.com/size-up/docs/actions/workflows/ci-cd.yaml/badge.svg?branch=main)](https://github.com/size-up/docs/actions/workflows/ci-cd.yaml)
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/size-up/docs?label=application%20version) ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/sizeup/docs?label=image%20version) ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/sizeup/docs)
 
-[This is Cloud website](https://docs.sizeup.cloud/) is a documentation that describes many tips and tricks on many IT topics.
+[Size Up - Documentation website](https://docs.sizeup.cloud/) is a documentation that describes many tips and tricks on many IT topics.
+
+Documentation website that describes many tips and tricks on many IT topics. Configuration references, useful files and links used to construct beautiful and efficient IT infrastructures, websites and applications with Open Source technologies.
 
 It's talking about configuration references and useful files and links used by Bare Metal Server, Virtual Private Server (VPS), Virtual Machine (VM) and other Cloud stuff.
 
