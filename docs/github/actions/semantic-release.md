@@ -24,13 +24,13 @@ Use the `exec` plugin to store the semantic release `${nextRelease.version}` var
 
 ### Install `@semantic-release/exec` plugin
 
-```shell
+```bash
 yarn add -D @semantic-release/exec
 ```
 
 or using `npm`:
 
-```shell
+```bash
 npm install --save-dev @semantic-release/exec
 ```
 

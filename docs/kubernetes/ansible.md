@@ -9,7 +9,7 @@ How to manage multiple **Kubernetes** nodes with **Ansible**.
 :::info
 Do not forget to change permissions of your ssh keys to allow **Ansible** to connect to them by doing the following:
 
-```shell
+```bash
 sudo chmod -R 600 ~/.ssh/key_name.key
 ```
 
@@ -17,7 +17,7 @@ sudo chmod -R 600 ~/.ssh/key_name.key
 
 ## Installation
 
-```shell
+```bash
 sudo apt install software-properties-common -y && \
 sudo add-apt-repository --yes --update ppa:ansible/ansible && \
 sudo apt install ansible -y
@@ -35,7 +35,7 @@ If a host is reinstalled and has a different key in `known_hosts`, this will res
 
 Create a `~/.ansible.cfg` file in user's home directory:
 
-```shell title="~/.ansible.cfg"
+```bash title="~/.ansible.cfg"
 [defaults]
 host_key_checking = False
 ```
@@ -46,7 +46,7 @@ Path to your **Ansible hosts file** is: `/etc/ansible/hosts`.<br/>It is where yo
 
 You can use the following hosts file configuration as example:
 
-```shell
+```bash
 [workers]
 my-first-worker-alias ansible_host=10.10.10.10 ansible_ssh_private_key_file=/home/ubuntu/.ssh/example-0.key
 my-second-worker-alias ansible_host=10.10.10.10 ansible_ssh_private_key_file=/home/ubuntu/.ssh/example-1.key
@@ -59,15 +59,15 @@ Here, `workers` is the name of the group of hosts. **It could be any name you wa
 
 **Ansible** action example:
 
-```shell
+```bash
 ansible all -m ping # ping all hosts in the hosts file (or in the inventory)
 ```
 
-```shell
+```bash
 ansible workers -m service -a "name=httpd state=restarted" # This will restart httpd on all workers.
 ```
 
-```shell
+```bash
 ansible all -a "sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y" # This will update all packages on all hosts.
 ```
 
@@ -77,7 +77,7 @@ Argument `-v` is to use the `verbose` mode. It will print the output of the comm
 
 Another example of command to reboot all nodes:
 
-```shell
+```bash
 ansible all -m shell -a "sudo reboot"
 ```
 
@@ -93,7 +93,7 @@ Ansible playbooks are a way to automate the deployment of your infrastructure. I
 
 ### Example command
 
-```shell
+```bash
 ansible-playbook my-playbook.yml
 ansible-playbook my-playbook.yml -i hosts.txt
 ansible-playbook my-playbook.yml -i hosts.txt --limit "my-first-worker-alias"
@@ -107,19 +107,19 @@ First, you need to install k3s on all the nodes. You can do it using the followi
 Replace `<MASTER_NODE_IP>` and `<TOKEN>` by your own k3s informations.
 :::
 
-```shell
+```bash
 ansible workers -v -m shell -a "curl -sfL https://get.k3s.io | K3S_URL=https://<MASTER_NODE_IP>:6443 K3S_TOKEN=<TOKEN> sh -"
 ```
 
 For instance, to easily config. `iptables` on all nodes, you can use the following command:
 
-```shell
+```bash
 ansible all -m shell -a "sudo iptables -A INPUT -p tcp --dport 6443 -j ACCEPT`
 ```
 
 ### Hosts file example
 
-```shell title="/etc/ansible/hosts"
+```bash title="/etc/ansible/hosts"
 # My inventory file is located in /etc/ansible/hosts on the cluster.
 
 [workers]

@@ -21,7 +21,7 @@ All the documentation of **actions-runner-controller** is [here](https://github.
 
 <!-- - Open port and connections with `iptables` (needed by `cert-manager`)
 
-```shell
+```bash
 sudo iptables --insert INPUT --source 0.0.0.0/0 --jump ACCEPT && \
 sudo iptables --insert INPUT --destination 0.0.0.0/0 --jump ACCEPT && \
 sudo iptables --insert FORWARD --source 0.0.0.0/0 --jump ACCEPT && \
@@ -32,13 +32,13 @@ sudo iptables --insert OUTPUT --destination 0.0.0.0/0 --jump ACCEPT
 
 - Install Helm
 
-```shell
+```bash
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
 
 - Install **cert-manager**
 
-```shell
+```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 ```
 
@@ -56,19 +56,19 @@ The `kubectl apply -f` doesn't work properly. Prefer install with the **actions-
 
 - Then, create a secret containing the `GITHUB_TOKEN`.
 
-```shell
+```bash
 export GITHUB_TOKEN=<your-github-token>
 ```
 
 - Create the **actions-runner-controller** namespace.
 
-```shell
+```bash
 kubectl create namespace actions-runner-system
 ```
 
 - Create Kubernetes secrets containing the `GITHUB_TOKEN`.
 
-```shell
+```bash
 kubectl create secret generic controller-manager \
     -n actions-runner-system \
     --from-literal=github_token=${GITHUB_TOKEN}
@@ -76,11 +76,11 @@ kubectl create secret generic controller-manager \
 
 - Install the **actions-runner-controller** using Helm.
 
-```shell
+```bash
 helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
 ```
 
-```shell
+```bash
 helm upgrade --install --namespace actions-runner-system --create-namespace \
              --wait actions-runner-controller actions-runner-controller/actions-runner-controller
 ```
