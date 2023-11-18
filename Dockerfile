@@ -1,5 +1,5 @@
 # First stage is to build the application
-FROM node:lts-alpine AS build
+FROM oven/bun:1-alpine AS build
 
 # Define working directory
 WORKDIR /app
@@ -8,10 +8,10 @@ WORKDIR /app
 COPY ./ ./
 
 # Install app dependencies
-RUN yarn install --frozen-lockfile
+RUN bun install --production --frozen-lockfile
 
 # Build the application
-RUN yarn run build
+RUN bun run build
 
 # Second stage is to build the application image
 FROM nginx:1.25-alpine as application

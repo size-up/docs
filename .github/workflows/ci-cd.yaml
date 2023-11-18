@@ -28,31 +28,17 @@ jobs:
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
-      - name: 🌐 Use Node.js LTS
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.x
 
-      - name: 🗂 Cache "node_modules"
-        uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - name: 🌐 Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          path: "**/node_modules"
-          key: ${{ runner.arch }}-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.arch }}-${{ runner.os }}-yarn-
+          bun-version: 1.0.13 # or "latest", "canary", <sha>
 
       - name: 📦 Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: ⚙️ Build application
-        run: yarn run build
-
-      - if: steps.yarn-cache.outputs.cache-hit != 'true'
-        name: 🗃 List the state of node modules
-        continue-on-error: true
-        run: yarn list
+        run: bun run build
 
   release:
     name: 🔖 Release
@@ -70,22 +56,16 @@ jobs:
           # used by semantic-release to bypass the branch protection rules
           token: ${{ secrets.GH_TOKEN }}
 
-      - name: 🌐 Use Node.js LTS
-        uses: actions/setup-node@v3
+      - name: 🌐 Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 20.x
+          bun-version: 1.0.13 # or "latest", "canary", <sha>
 
-      - name: 🗂 Cache "node_modules"
-        uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.arch }}-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.arch }}-${{ runner.os }}-yarn-
+      - name: 📦 Install dependencies
+        run: bun install --frozen-lockfile
 
       - name: 🔖 Release application
-        run: npx semantic-release
+        run: bunx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional, needed to publish packages on npm

@@ -1,1 +1,2 @@
 *.hbs linguist-vendored
+*.lockb binary diff=lockb
