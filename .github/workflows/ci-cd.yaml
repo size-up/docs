@@ -31,7 +31,7 @@ jobs:
       - name: 🌐 Use Node.js LTS
         uses: actions/setup-node@v3
         with:
-          node-version: lts/*
+          node-version: 20.x
 
       - name: 🗂 Cache "node_modules"
         uses: actions/cache@v3
@@ -73,7 +73,7 @@ jobs:
       - name: 🌐 Use Node.js LTS
         uses: actions/setup-node@v3
         with:
-          node-version: lts/*
+          node-version: 20.x
 
       - name: 🗂 Cache "node_modules"
         uses: actions/cache@v3
