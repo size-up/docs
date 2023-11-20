@@ -1,0 +1,75 @@
+name: 🚀 Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Environment to deploy (e.g. staging, production)"
+        required: true
+        type: string
+      namespace:
+        description: "Namespace to deploy (e.g. frontend, backend)"
+        required: true
+        type: string
+      deployment:
+        description: "Deployment to deploy (e.g. frontend, backend)"
+        required: true
+        type: string
+      image:
+        description: "Image to deploy (e.g. frontend, backend)"
+        required: true
+        type: string
+      tag:
+        description: "Tag to deploy (e.g. latest, v1.0.0)"
+        required: false
+        default: latest
+        type: string
+    secrets:
+      kubeconfig:
+        description: "Kubeconfig to use"
+        required: true
+      registry_username:
+        description: "Registry username"
+        required: true
+
+jobs:
+  deploy:
+    name: Version [${{ inputs.tag }}] on [${{ inputs.environment }}]
+    runs-on: ubuntu-latest
+
+    concurrency: ${{ inputs.environment }} # refer to https://docs.github.com/en/actions/using-jobs/using-concurrency
+    environment:
+      name: ${{ inputs.environment }} # refer to your GitHub repository environment
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up kubectl
+        uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.kubeconfig }}
+
+      - name: 🔊 Display deployment image before update
+        run: kubectl get deployments -n ${{ inputs.namespace }} ${{ inputs.deployment }} -o=wide
+
+      - name: 🚀 Set image tag to [${{ inputs.tag }}]
+        id: set_image
+        run: |
+          echo image_updated=$(kubectl set image -n ${{ inputs.namespace }} deployment/${{ inputs.deployment }} ${{ inputs.deployment }}=${{ secrets.registry_username }}/${{ inputs.image }}:${{ inputs.tag }}) >> $GITHUB_OUTPUT
+
+      - name: 🔊 Display "set_image" step output
+        run: echo ${{ steps.set_image.outputs.image_updated }}
+
+      # Rollout the deployment only if the image hasn't been updated, to avoid unnecessary restarts.
+      - name: 🚀 Rollout deployment [${{ inputs.deployment }}]
+        id: rollout
+        if: steps.set_image.outputs.image_updated == '' # if the image hasn't been updated, the output will be empty
+        run: echo deployment_rollout=$(kubectl rollout -n ${{ inputs.namespace }} restart deployment ${{ inputs.deployment }}) >> $GITHUB_OUTPUT
+
+      - name: 🔊 Display "rollout" step output
+        if: steps.rollout.outputs.deployment_rollout
+        run: echo ${{ steps.rollout.outputs.deployment_rollout }}
+
+      - name: 🔊 Display deployment image after update
+        run: kubectl get deployments -n ${{ inputs.namespace }} ${{ inputs.deployment }} -o=wide
