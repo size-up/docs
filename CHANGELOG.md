@@ -1,3 +1,15 @@
+# [v2.0.0](https://github.com/size-up/docs/compare/v1.6.5...v2.0.0) (2023-11-22)
+
+## 💥 Introduce breaking changes
+- [`8b3f0f1`](https://github.com/size-up/docs/commit/8b3f0f1)  Upgrade to Docusaurus v3 
+
+## ⚡️ Improve performance
+- [`709532d`](https://github.com/size-up/docs/commit/709532d) ️ Update nginx version and enhance Dockerfile 
+- [`edbe9e1`](https://github.com/size-up/docs/commit/edbe9e1) ️ Update Node version in Dockerfile 
+
+## 🔍️ Improve SEO
+- [`663e96e`](https://github.com/size-up/docs/commit/663e96e)  Transform website title to Size Up
+
 # [v1.6.5](https://github.com/size-up/docs/compare/v1.6.4...v1.6.5) (2023-10-18)
 
 # [v1.6.4](https://github.com/size-up/docs/compare/v1.6.3...v1.6.4) (2023-09-29)

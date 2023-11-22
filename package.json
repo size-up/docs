@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "1.6.5",
+  "version": "2.0.0",
   "displayName": "Size Up",
   "description": "Documentation website that describes many tips and tricks on many IT topics. Configuration references, useful files and links used to construct beautiful and efficient IT infrastructures, websites and applications with Open Source technologies.",
   "license": "GPL-3.0-or-later",
