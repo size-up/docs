@@ -1,6 +1,6 @@
 # Size Up - Documentation website
 
-[![🔄 CI/CD](https://github.com/size-up/docs/actions/workflows/ci-cd.yaml/badge.svg?branch=main)](https://github.com/size-up/docs/actions/workflows/ci-cd.yaml)
+[![🔄 CI/CD](https://github.com/size-up/docs/actions/workflows/build-release-push-deploy.yaml/badge.svg?branch=main)](https://github.com/size-up/docs/actions/workflows/build-release-push-deploy.yaml)
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/size-up/docs?label=application%20version) ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/sizeup/docs?label=image%20version) ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/sizeup/docs)
 
