@@ -1,3 +1,14 @@
+# [v2.0.1](https://github.com/size-up/docs/compare/v2.0.0...v2.0.1) (2023-11-29)
+
+## 🍱 Add or update assets
+- [`d29e3aa`](https://github.com/size-up/docs/commit/d29e3aa)  Update site.webmanifest with new icon sizes 
+
+## 🔍️ Improve SEO
+- [`e5e1970`](https://github.com/size-up/docs/commit/e5e1970)  Add robots.txt file 
+
+## 📝 Add or update documentation
+- [`6e5cc3d`](https://github.com/size-up/docs/commit/6e5cc3d)  Update CI/CD badge URL
+
 # [v2.0.0](https://github.com/size-up/docs/compare/v1.6.5...v2.0.0) (2023-11-22)
 
 ## 💥 Introduce breaking changes
