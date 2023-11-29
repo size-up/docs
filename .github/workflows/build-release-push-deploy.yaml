@@ -137,6 +137,7 @@ jobs:
 
   deploy-pre-production:
     name: 🚀 Deploy
+    if: ${{ github.actor != 'dependabot[bot]' }}
     needs: [push, release]
     uses: ./.github/workflows/reusable-kubernetes-deploy.yaml
     with:
