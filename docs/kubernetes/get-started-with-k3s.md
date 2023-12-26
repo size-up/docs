@@ -26,9 +26,9 @@ The following are the minimum CPU and memory requirements for nodes in a **high-
 | X-Large         | Up to 500 | 16    | 32 GB |
 | XX-Large        | 500+      | 32    | 64 GB |
 
-> See documentation about [k3s](https://k3s.io/docs/concepts/cluster/k3s). **k3s** is a container orchestrator for Kubernetes. Is lightweight, easy to use and easy to deploy.
+> **k3s** is a container orchestrator for Kubernetes. Is lightweight, easy to use and easy to deploy.<br/>See documentation about [k3s](https://docs.k3s.io).
 
-> See documentation about [Oracle - Always Free Ressources](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/usingalwaysfreeressources.htm).<br/>The Oracle's **Always Free Ressources** can be used to create a k3s cluster on Oracle Cloud platform.
+> The Oracle's **Always Free Ressources** can be used to create a k3s cluster on Oracle Cloud platform.<br/>See documentation about [Oracle - Always Free Ressources](https://docs.oracle.com/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm).
 
 ## 📝 Preparation
 
