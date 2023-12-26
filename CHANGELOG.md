@@ -1,3 +1,8 @@
+# [v2.0.2](https://github.com/size-up/docs/compare/v2.0.1...v2.0.2) (2023-12-26)
+
+## 🐛 Bug fixes
+- [`f45190c`](https://github.com/size-up/docs/commit/f45190c)  Update k3s documentation links
+
 # [v2.0.1](https://github.com/size-up/docs/compare/v2.0.0...v2.0.1) (2023-11-29)
 
 ## 🍱 Add or update assets
