@@ -8,7 +8,7 @@ Cheet sheet about all Kubernetes commands and contents.
 
 ## Kubernetes cheat sheet
 
-### See all node are running with more details:
+### See all node are running with more details
 
 ```bash
 kubectl get node --all-namespaces --output=wide
@@ -35,7 +35,7 @@ watch --interval 1 kubectl get node --all-namespaces --output=wide
 kubectl get pods --all-namespaces -o=wide --watch
 ```
 
-### Apply directly yaml file in command line:
+### Apply directly yaml file in command line
 
 ```bash
 kubectl apply -f - <<EOF
