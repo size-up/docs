@@ -1,3 +1,11 @@
+# [v2.0.3](https://github.com/size-up/docs/compare/v2.0.2...v2.0.3) (2024-03-01)
+
+## ⚡️ Improve performance
+- [`158a702`](https://github.com/size-up/docs/commit/158a702) ️ Update Ubuntu category to Linux 
+
+## 🐛 Bug fixes
+- [`8e2c488`](https://github.com/size-up/docs/commit/8e2c488)  Fix formatting in Kubernetes cheat sheet
+
 # [v2.0.2](https://github.com/size-up/docs/compare/v2.0.1...v2.0.2) (2023-12-26)
 
 ## 🐛 Bug fixes
