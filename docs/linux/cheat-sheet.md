@@ -14,10 +14,26 @@ All the tips and tricks that I have found useful are here!
 uname -a
 ```
 
+Output example:
+
+```bash
+Linux ubuntu 5.15.0-52-generic #58-Ubuntu SMP Tue Jun 28 14:27:29 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+```
+
 ### Get the distribution name and version
 
 ```bash
 lsb_release -a
+```
+
+Output example:
+
+```bash
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 22.04.4 LTS
+Release:	22.04
+Codename:	jammy
 ```
 
 ---
@@ -26,6 +42,12 @@ lsb_release -a
 
 ```bash
 dpkg --list | grep linux-image
+```
+
+Output example:
+
+```bash
+ii  linux-image-5.15.0-52-generic             5.15.0-52.58~22.04.1                    amd64        Signed kernel image generic
 ```
 
 ### Install a specific kernel version
@@ -56,6 +78,18 @@ Get the current **timezone**
 
 ```bash
 timedatectl status
+```
+
+Output example:
+
+```bash
+Local time: Fri 2022-07-01 14:27:29 UTC
+Universal time: Fri 2022-07-01 14:27:29 UTC
+RTC time: Fri 2022-07-01 14:27:29
+Time zone: UTC (UTC, +0000)
+System clock synchronized: yes
+NTP service: active
+RTC in local TZ: no
 ```
 
 Change the **timezone**
@@ -160,59 +194,43 @@ sudo iptables -F
 sudo iptables -X
 ```
 
-## Git
+## Disk related
 
-### Graphical logs
-
-```bash
-git log --oneline --graph --decorate --all
-```
-
-A full example:
+### Disk free space
 
 ```bash
-git log --all --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''%s%C(reset) %C(dim)- %an%C(reset)'
+df -kh
 ```
 
-### Rebase
+`-k` is for kilobytes, `-h` is for human readable.
 
-For instance, a git rebase interactive from your current branch, to the 3 previous commits:
+Output example:
 
 ```bash
-git rebase -i HEAD~3
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           2.4G  1.4M  2.4G   1% /run
+/dev/sda1       194G  2.5G  192G   2% /
+tmpfs            12G     0   12G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/sda15       98M  6.3M   92M   7% /boot/efi
+tmpfs           2.4G  4.0K  2.4G   1% /run/user/1001
 ```
 
-:::tip
-The shortcut of `HEAD` is `@`.
-:::
+### Disk usage
 
 ```bash
-git rebase -i @~3
+sudo du -hs /
 ```
 
-:::tip
-`HEAD` is the current branch. `HEAD~1` is the previous commit. `HEAD~2` is the commit before the previous one. And so on.
-:::
+`-h` is for human readable, `-s` is for summary.
 
-An other example, a git rebase interactive from the current branch, to the commit `123456789`:
+Output example:
 
 ```bash
-git rebase -i 123456789
+2.5G    /
 ```
 
-And finally, a git rebase interactive from the current branch, to the previous commit `123456789`:
-
-```bash
-git rebase -i 123456789^
-```
-
-Or with the tilde shortcut:
-
-```bash
-git rebase -i 123456789~
-```
-
-### Ping
+## Ping
 
 It is possible to reduce the default delay (1 second) of ping command (recently minimum time was changed to 200ms = 0.2).
 
@@ -274,4 +292,56 @@ Find a **file** with a **pattern**
 
 ```bash
 find /directory -name "*file*.txt"
+```
+
+## Git
+
+### Graphical logs
+
+```bash
+git log --oneline --graph --decorate --all
+```
+
+A full example:
+
+```bash
+git log --all --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''%s%C(reset) %C(dim)- %an%C(reset)'
+```
+
+### Rebase
+
+For instance, a git rebase interactive from your current branch, to the 3 previous commits:
+
+```bash
+git rebase -i HEAD~3
+```
+
+:::tip
+The shortcut of `HEAD` is `@`.
+:::
+
+```bash
+git rebase -i @~3
+```
+
+:::tip
+`HEAD` is the current branch. `HEAD~1` is the previous commit. `HEAD~2` is the commit before the previous one. And so on.
+:::
+
+An other example, a git rebase interactive from the current branch, to the commit `123456789`:
+
+```bash
+git rebase -i 123456789
+```
+
+And finally, a git rebase interactive from the current branch, to the previous commit `123456789`:
+
+```bash
+git rebase -i 123456789^
+```
+
+Or with the tilde shortcut:
+
+```bash
+git rebase -i 123456789~
 ```

@@ -96,8 +96,8 @@ const config = {
             label: "Summary",
           },
           {
-            to: "/docs/category/ubuntu",
-            label: "Ubuntu",
+            to: "/docs/category/linux",
+            label: "Linux",
             position: "left",
           },
           {
@@ -136,8 +136,8 @@ const config = {
                 to: "/docs/summary",
               },
               {
-                label: "Ubuntu",
-                to: "/docs/category/ubuntu",
+                label: "Linux",
+                to: "/docs/category/linux",
               },
               {
                 label: "Kubernetes",
