@@ -51,7 +51,7 @@
     "@tsconfig/docusaurus": "^2.0.2",
     "semantic-release": "^22.0.12",
     "semantic-release-gitmoji": "^1.6.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.4"
   },
   "browserslist": {
     "production": [
